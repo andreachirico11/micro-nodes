@@ -1,0 +1,88 @@
+version: '1'
+services:
+  micro-auth:
+    container_name: micro-auth
+    build: ./micro-node-auth
+    ports:
+      - "x:y"
+    environment:
+      - PRODUCTION=false
+      - PORT=
+      - BASE_URL=
+      - DB_URI=
+      - ADMIN_CRUDS=
+      - MICRO_HASH_URI=
+    depends_on:
+      - micro-crypt
+      - mysql
+  
+  micro-crypt:
+    container_name: micro-crypt
+    build: ./micro-node-crypt
+    ports:
+      - "x:y"
+    environment:
+      - PRODUCTION=
+      - PORT=
+      - BASE_URL=
+
+  micro-data:
+    container_name: micro-data
+    build: ./micro-node-data
+    ports:
+      - "x:y"
+    environment:
+      - PRODUCTION=
+      - PORT=
+      - MICRO_AUTH_URI=
+      - BASE_URL=api
+      - MONGO_URI=
+      - BYPASS_AUTH=
+    depends_on:
+      - mongo
+  
+  micro-static:
+    container_name: micro-static
+    build: ./micro-node-static-files
+    ports:
+      - "x:y"
+    environment:
+      - PRODUCTION=
+      - PORT=
+      - MICRO_AUTH_URI=
+      - BASE_URL=api
+      - STORAGE_PATH=
+    volumes:
+    - <<VOLUME NAME>>:/PATH/TO/THE/FOLDER TO STORE FILES
+    depends_on:
+      - micro-auth
+
+  mongo:
+    container_name: data
+    image: mongo:latest
+    ports:
+      - "x:y"
+    volumes:
+      - mongo-data:/data/<<VOLUME NAME>>
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=
+      - MONGO_INITDB_ROOT_PASSWORD=admn
+    command: [ --auth ]
+
+  mysql:
+    container_name: mysql_db
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE= <<at least a test db>>
+      - MYSQL_USER=
+      - MYSQL_PASSWORD=
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "x:y"
+
+volumes:
+  mongo-data:
+  mysql_data:
+  <<MICRO STATIC VOLUME NAME>>:

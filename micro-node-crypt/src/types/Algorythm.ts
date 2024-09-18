@@ -1,0 +1,1 @@
+export type Algorythm = "aes256";
