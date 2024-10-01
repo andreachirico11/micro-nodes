@@ -11,6 +11,7 @@ import {
 import {
   ALREADY_EXISTENT,
   ErrorCodes,
+  GENERIC,
   INTERNAL_SERVER,
   multerErrorHandling,
   NON_EXISTENT,
@@ -21,7 +22,9 @@ import { STORAGE_PATH } from '../configs/Envs';
 import { getFilePathWithTItle } from '../utils/path-utils';
 import { existsSync, rmdirSync, rmSync } from 'fs';
 import { StaticFileInfo } from '../model/StaticFileInfo';
-import { GetFileRequest, StoreRequest } from '../types/Requests';
+import { FileIdRequest, StoreRequest } from '../types/Requests';
+import { createTransaction } from '../configs/sequelize';
+import deleteFileFs, { deleteFileFsAsync } from '../utils/deleteFileFs';
 
 export const storeFIle: RequestHandler = async (req: Request, res, next) => {
   multerSingle(req, res, function (e) {
@@ -63,13 +66,12 @@ export const saveFileInfo: RequestHandler = async (req: StoreRequest, res, next)
     return new SuccessResponse(res, { fileCreated: _id });
   } catch (error) {
     log_error(error, 'ERROR SAVING FILE STATS');
-    rmSync(filePath, { force: true });
-    if (!!folderPath) rmdirSync(folderPath);
+    deleteFileFs(filePath, folderPath);
     return new ServerErrorRespWithMessage(res, 'File Not Saved');
   }
 };
 
-export const getFile: RequestHandler = async (req: GetFileRequest, res, next) => {
+export const getFile: RequestHandler = async (req: FileIdRequest, res, next) => {
   const { fileId } = req.params,
     { api_key } = req.headers;
   log_info('Getting file with id: ' + fileId);
@@ -98,4 +100,25 @@ export const getFile: RequestHandler = async (req: GetFileRequest, res, next) =>
       new ServerErrorResp(res, INTERNAL_SERVER);
     }
   });
+};
+
+export const deleteFile: RequestHandler = async (req: FileIdRequest, res, next) => {
+  const { fileId } = req.params;
+  log_info('Start deleting process for file with id: ' + fileId);
+  const foundFileInfo = await StaticFileInfo.findByPk(fileId);
+  if (!foundFileInfo || !existsSync(foundFileInfo.filePath)) {
+    log_error('File Not Found');
+    return new NotFoundResp(res, NON_EXISTENT);
+  }
+  try {
+    const { filePath, folderPath } = foundFileInfo;
+    await foundFileInfo.destroy();
+    log_info('FILE INFO DELETED');
+    if (!(await deleteFileFsAsync(filePath, folderPath))) throw new Error();
+    log_info('FILE DELETED FROM SYSTEM');
+    return new SuccessResponse(res);
+  } catch (error) {
+    log_error(error, 'Error deleting file id: ' + fileId);
+    return new ServerErrorResp(res, GENERIC);
+  }
 };

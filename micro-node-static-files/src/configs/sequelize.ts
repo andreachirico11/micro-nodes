@@ -1,4 +1,4 @@
-import { Options, Sequelize } from 'sequelize';
+import { Options, Sequelize, Transaction } from 'sequelize';
 import { DB_URI, PRODUCTION } from './Envs';
 import { SequelizeModelInitFn } from '../types/SequelizeModelInitFn';
 
@@ -15,8 +15,13 @@ const sequelizeOptions: Options = {
   },
 };
 
-export default function (...initFns: SequelizeModelInitFn[]) {
   const s = new Sequelize(DB_URI, sequelizeOptions);
+
+export default function (...initFns: SequelizeModelInitFn[]) {
   initFns.forEach((initFn) => initFn(s));
   return s.authenticate();
+}
+
+export function createTransaction() {
+  return new Transaction(s, {autocommit: false})
 }
