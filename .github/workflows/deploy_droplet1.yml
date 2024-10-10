@@ -1,0 +1,21 @@
+name: Build & Deploy
+on:
+  push:
+    branches: [main]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: deploy all microservices
+        uses: appleboy/ssh-action@v0.1.3
+        with:
+          host: ${{ secrets.SSH_DROPLET1 }}
+          key: ${{secrets.PC_GENERATED_PK }}
+          username: ${{ secrets.DROPLET_1_USER }}
+          passphrase: ${{ secrets.PC_GENERATED_PASSPHRASE }}
+          port: 22
+          script: |
+            cd MICROSERVICES
+            git clone git@github:andreachirico11/micro-nodes.git
+            echo 'Deployment successful to digital ocean'
