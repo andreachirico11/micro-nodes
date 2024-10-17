@@ -7,6 +7,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: add remote server to known hosts
+        run: |
+          ssh-keyscan -H ${{ secrets.SSH_DROPLET1 }} > ~/.ssh/known_hosts
       - uses: actions/checkout@v4
       - name: deploy all microservices
         uses: appleboy/ssh-action@v0.1.2
