@@ -1,10 +1,23 @@
-version: '1'
+#IMPORTANT
+#if microservices are used with proxy remove ports and set PORT variable to 80
+#the proxy must not be changed, is configured inside it's own file
+
 services:
+  micro-proxy:
+    container_name: micro-proxy
+    image: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+
+
   micro-auth:
     container_name: micro-auth
     build: ./micro-node-auth
     ports:
-      - "x:y"
+      - "x:y" 
     environment:
       - PRODUCTION=false
       - PORT=
