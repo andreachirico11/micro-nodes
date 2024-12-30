@@ -9,11 +9,22 @@ import { NodeTlsHandler } from '../configs/Envs';
 
 export const getPing: RequestHandler = async (req, res) => {
   try {
+    const host = GetSetRequestProps.getClientIp(req), message = 'Ping test micro auth';
+    log_info('Ping Test from ' + host);
+    return new SuccessResponse(res, {message, host});
+  } catch (error) {
+    log_error(error, 'There was an error fetching tests');
+    return new ServerErrorResp(res, GENERIC);
+  }
+};
+
+export const getPingDb: RequestHandler = async (req, res) => {
+  try {
     log_info('Start Ping Test From Db');
     const { name } = await PingTest.findOne({ attributes: ['name'] });
     const message = 'Fetched the test with name: ' + name;
     log_info(message, 'Success!!!');
-    return new SuccessResponse(res, {message, host: GetSetRequestProps.getClientIp(req)});
+    return new SuccessResponse(res, { message, host: GetSetRequestProps.getClientIp(req) });
   } catch (error) {
     log_error(error, 'There was an error fetching tests');
     return new ServerErrorResp(res, GENERIC);

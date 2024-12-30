@@ -4,13 +4,18 @@ import IEnvs from '../types/IEnvs';
 import { log_info } from '../utils/log';
 
 const defaultEnvs: IEnvs = {
-  PORT: 1234,
+  PORT: 1112,
   PRODUCTION: false,
   BASE_URL: '',
-  DB_URI: '',
   SYMBOLS_REGEX: '[!@#$%&*(\\)_+=|<>?\\[\\]{}]',
   MICRO_HASH_URI: '',
-  ADMIN_CRUDS: false
+  ADMIN_CRUDS: false,
+  DB_HOST: '',
+  DB_PORT: 3306,
+  DB_USER: '',
+  DB_PASSWORD: '',
+  DB_NAME: '',
+  DB_SSL: false,
 };
 
 let { error, parsed: preParsingVars } = config({});
@@ -40,10 +45,15 @@ export const {
   PORT = defaultEnvs.PORT,
   PRODUCTION = defaultEnvs.PRODUCTION,
   BASE_URL = defaultEnvs.BASE_URL,
-  DB_URI = defaultEnvs.DB_URI,
   SYMBOLS_REGEX = defaultEnvs.SYMBOLS_REGEX,
   MICRO_HASH_URI = defaultEnvs.MICRO_HASH_URI,
-  ADMIN_CRUDS = defaultEnvs.ADMIN_CRUDS
+  ADMIN_CRUDS = defaultEnvs.ADMIN_CRUDS,
+  DB_HOST = defaultEnvs.DB_HOST,
+  DB_NAME = defaultEnvs.DB_NAME,
+  DB_PASSWORD = defaultEnvs.DB_PASSWORD,
+  DB_PORT = defaultEnvs.DB_PORT,
+  DB_USER = defaultEnvs.DB_USER,
+  DB_SSL = defaultEnvs.DB_SSL,
 } = parsedEnvs;
 
 log_info(
@@ -51,10 +61,14 @@ log_info(
     PORT,
     PRODUCTION,
     BASE_URL,
-    DB_URI,
     SYMBOLS_REGEX,
     MICRO_HASH_URI,
-    ADMIN_CRUDS
+    ADMIN_CRUDS,
+    DB_HOST,
+    DB_NAME,
+    DB_PORT,
+    DB_USER,
+    DB_SSL,
   },
   '--------- Actual Environments -------'
 );

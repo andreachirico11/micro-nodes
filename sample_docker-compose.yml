@@ -1,6 +1,7 @@
 #IMPORTANT
 #if microservices are used with proxy remove ports and set PORT variable to 80
 #the proxy must not be changed, is configured inside it's own file
+#connection between services uses the internal name
 
 services:
   micro-proxy:
@@ -16,15 +17,19 @@ services:
   micro-auth:
     container_name: micro-auth
     build: ./micro-node-auth
-    ports:
-      - "x:y" 
+    #ports:
+    #  - "x:y" 
     environment:
-      - PRODUCTION=false
-      - PORT=
+      - PRODUCTION=true
+      - PORT=80 the same of ports if used
       - BASE_URL=
-      - DB_URI=
-      - ADMIN_CRUDS=
-      - MICRO_HASH_URI=
+      - DB_HOST=mysql_db
+      - DB_NAME=
+      - DB_PASSWORD=
+      - DB_USER=
+      - DB_PORT=3306
+      - ADMIN_CRUDS=false
+      - MICRO_HASH_URI=http://micro-crypt
     depends_on:
       - micro-crypt
       - mysql
@@ -32,8 +37,8 @@ services:
   micro-crypt:
     container_name: micro-crypt
     build: ./micro-node-crypt
-    ports:
-      - "x:y"
+    # ports:
+    #   - "x:y"
     environment:
       - PRODUCTION=
       - PORT=
@@ -42,11 +47,11 @@ services:
   micro-data:
     container_name: micro-data
     build: ./micro-node-data
-    ports:
-      - "x:y"
+    # ports:
+    #   - "x:y"
     environment:
-      - PRODUCTION=
-      - PORT=
+      - PRODUCTION=true
+      - PORT=80 the same of ports if used
       - MICRO_AUTH_URI=
       - BASE_URL=api
       - MONGO_URI=
@@ -57,14 +62,19 @@ services:
   micro-static:
     container_name: micro-static
     build: ./micro-node-static-files
-    ports:
-      - "x:y"
+    # ports:
+    #   - "x:y"
     environment:
-      - PRODUCTION=
-      - PORT=
-      - MICRO_AUTH_URI=
-      - BASE_URL=api
+      - PRODUCTION=true
+      - PORT=80 the same of ports if used
+      - BASE_URL=
       - STORAGE_PATH=
+      - DB_HOST=mysql_db
+      - DB_NAME=
+      - DB_PASSWORD=
+      - DB_USER=
+      - DB_PORT=3306
+      - MICRO_AUTH_URI=http://micro-auth
     volumes:
     - <<VOLUME NAME>>:/PATH/TO/THE/FOLDER TO STORE FILES
     depends_on:
@@ -87,13 +97,13 @@ services:
     image: mysql:8.0
     environment:
       - MYSQL_ROOT_PASSWORD=
-      - MYSQL_DATABASE= <<at least a test db>>
+      # - MYSQL_DATABASE= this is not compulsory 
       - MYSQL_USER=
       - MYSQL_PASSWORD=
     volumes:
       - mysql_data:/var/lib/mysql
     ports:
-      - "x:y"
+      - "3306:3306" #must be the same of the one used by services
 
 volumes:
   mongo-data:

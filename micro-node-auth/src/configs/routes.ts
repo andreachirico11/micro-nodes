@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { isAdminTokenValid, getAdminByName, authenticateAdmin, updateAdminToken, getAdminToken, deleteAdmin, addAdmin, areAdminActionsEnabled } from "../controllers/admins";
 import { addApp, getAppById, updateApp, deleteApp, getAppIfApikeyIsValid } from "../controllers/apps";
-import { pingExternalSevices, getPing } from "../controllers/ping";
+import { pingExternalSevices, getPing, getPingDb } from "../controllers/ping";
 import { unsupportedUrl } from "../controllers/unsuportedUrl";
 import { cascadeDeleteUsers, getUserByNameAndAppAndContinue, getUserByIdAndContinue, returnUser, getAllUsers, addUser, updateUser, deleteUser } from "../controllers/users";
 import { configRequest } from "../controllers/utils";
@@ -79,6 +79,7 @@ userRouter.put(
 userRouter.delete('/:userId', getUserByIdAndContinue, deleteUser);
 router.use('/user', getAppIfApikeyIsValid, userRouter);
 
+router.get('/ping/db', getPingDb);
 router.get('/ping/ext', pingExternalSevices);
 router.get('/ping', getPing);
 
