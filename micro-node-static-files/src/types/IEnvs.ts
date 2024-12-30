@@ -8,5 +8,10 @@ export default interface IEnvs extends ParsedVariables {
   BYPASS_AUTH: boolean;
   STORAGE_PATH: string;
   FILE_MAX_SIZE: number;
-  DB_URI: string;
+  DB_HOST: string;
+  DB_PORT: number;
+  DB_USER: string;
+  DB_PASSWORD: string;
+  DB_NAME: string;
+  DB_SSL: boolean;
 }

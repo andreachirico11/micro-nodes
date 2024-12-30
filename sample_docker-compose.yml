@@ -21,7 +21,7 @@ services:
     #  - "x:y" 
     environment:
       - PRODUCTION=true
-      - PORT=80 the same of ports if used
+      - PORT=80 # the same of internal ports if used
       - BASE_URL=
       - DB_HOST=mysql_db
       - DB_NAME=
@@ -51,7 +51,7 @@ services:
     #   - "x:y"
     environment:
       - PRODUCTION=true
-      - PORT=80 the same of ports if used
+      - PORT=80 # the same of internal ports if used
       - MICRO_AUTH_URI=
       - BASE_URL=api
       - MONGO_URI=
@@ -66,9 +66,9 @@ services:
     #   - "x:y"
     environment:
       - PRODUCTION=true
-      - PORT=80 the same of ports if used
+      - PORT=80 # the same of internal ports if used
       - BASE_URL=
-      - STORAGE_PATH=
+      - STORAGE_PATH= # the path inside the container where files will be stored
       - DB_HOST=mysql_db
       - DB_NAME=
       - DB_PASSWORD=
@@ -76,9 +76,10 @@ services:
       - DB_PORT=3306
       - MICRO_AUTH_URI=http://micro-auth
     volumes:
-    - <<VOLUME NAME>>:/PATH/TO/THE/FOLDER TO STORE FILES
+    - <<STATIC VOLUME NAME>>: # container storage_path variable 
     depends_on:
       - micro-auth
+      - mysql_db
 
   mongo:
     container_name: data
@@ -108,4 +109,4 @@ services:
 volumes:
   mongo-data:
   mysql_data:
-  <<MICRO STATIC VOLUME NAME>>:
+  <<STATIC VOLUME NAME>>:

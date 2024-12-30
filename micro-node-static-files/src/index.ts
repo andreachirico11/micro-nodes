@@ -4,6 +4,7 @@ import express from './configs/express';
 import { Application } from 'express';
 import initSequelize from './configs/sequelize';
 import { staticFileInfoInitInit } from './model/StaticFileInfo';
+import { pingTestInit } from './model/PingTest';
 
 
 
@@ -17,7 +18,7 @@ import { staticFileInfoInitInit } from './model/StaticFileInfo';
   }
 
     try {
-      await initSequelize(staticFileInfoInitInit);
+      await initSequelize(pingTestInit, staticFileInfoInitInit);
       log_info('Connected to Db');
     } catch (e) {
       log_error(e, 'Error with Database Connection');

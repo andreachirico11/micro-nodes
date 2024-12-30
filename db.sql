@@ -48,6 +48,11 @@ CREATE TABLE Admins (
 
 CREATE DATABASE `micro-static-files`;
 
+CREATE TABLE pingTests (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255)
+);
+
 CREATE TABLE StaticFilesInfo (
     _id INT AUTO_INCREMENT PRIMARY KEY,
     fileName VARCHAR(255) NOT NULL,

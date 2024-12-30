@@ -4,14 +4,19 @@ import IEnvs from '../types/IEnvs';
 import { log_info } from '../utils/log';
 
 const defaultEnvs: IEnvs = {
-  PORT: 2222,
+  PORT: 1113,
   PRODUCTION: false,
   BASE_URL: '',
   MICRO_AUTH_URI: '',
   BYPASS_AUTH: false,
   STORAGE_PATH: 'TEMP',
   FILE_MAX_SIZE: 20000000,
-  DB_URI: '',
+  DB_HOST: '',
+  DB_PORT: 3306,
+  DB_USER: '',
+  DB_PASSWORD: '',
+  DB_NAME: '',
+  DB_SSL: false,
 };
 
 let { error, parsed: preParsingVars } = config({});
@@ -47,7 +52,12 @@ export const {
   BYPASS_AUTH = defaultEnvs.BYPASS_AUTH,
   FILE_MAX_SIZE = defaultEnvs.FILE_MAX_SIZE,
   STORAGE_PATH = defaultEnvs.STORAGE_PATH,
-  DB_URI = defaultEnvs.DB_URI
+  DB_HOST = defaultEnvs.DB_HOST,
+  DB_NAME = defaultEnvs.DB_NAME,
+  DB_PASSWORD = defaultEnvs.DB_PASSWORD,
+  DB_PORT = defaultEnvs.DB_PORT,
+  DB_USER = defaultEnvs.DB_USER,
+  DB_SSL = defaultEnvs.DB_SSL,
 } = parsedEnvs;
 
 
@@ -61,7 +71,11 @@ log_info(
     BYPASS_AUTH,
     STORAGE_PATH,
     FILE_MAX_SIZE,
-    DB_URI
+    DB_HOST,
+    DB_NAME,
+    DB_PORT,
+    DB_USER,
+    DB_SSL,
   },
   '--------- Actual Environments -------'
 );
