@@ -1,9 +1,9 @@
 import { connect, connection, ConnectionStates } from "mongoose";
-import { MONGO_URI } from "./Envs";
+import { MONGO_DB, MONGO_URI } from "./Envs";
 
 export function mongooseConnect() {
     return connect(MONGO_URI, {
-        dbName: "micro-data"
+        dbName: MONGO_DB
     })
 }
 

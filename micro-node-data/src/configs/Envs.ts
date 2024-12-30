@@ -5,13 +5,14 @@ import { log_info } from '../utils/log';
 import { CrudOperations } from '../types/CrudOperations';
 
 const defaultEnvs: IEnvs = {
-  PORT: 1234,
+  PORT: 1114,
   PRODUCTION: false,
   BASE_URL: '',
   MONGO_URI: '',
   MICRO_AUTH_URI:'',
   BYPASS_AUTH: false,
-  CONFIGS_COLLECTION_NAME: 'collection_config'
+  CONFIGS_COLLECTION_NAME: 'collection_config',
+  MONGO_DB: 'micro-data'
 };
 
 let { error, parsed: preParsingVars } = config({});
@@ -44,7 +45,8 @@ export const {
   MONGO_URI = defaultEnvs.MONGO_URI,
   MICRO_AUTH_URI = defaultEnvs.MICRO_AUTH_URI,
   BYPASS_AUTH = defaultEnvs.BYPASS_AUTH,
-  CONFIGS_COLLECTION_NAME = defaultEnvs.CONFIGS_COLLECTION_NAME
+  CONFIGS_COLLECTION_NAME = defaultEnvs.CONFIGS_COLLECTION_NAME,
+  MONGO_DB = defaultEnvs.MONGO_DB
 } = parsedEnvs;
 
 export const DEFAULT_UNCHEKED_OPS: CrudOperations[] = [CrudOperations.GET];
@@ -57,7 +59,9 @@ log_info(
     MONGO_URI,
     MICRO_AUTH_URI,
     BYPASS_AUTH,
-    CONFIGS_COLLECTION_NAME
+    CONFIGS_COLLECTION_NAME,
+    MONGO_DB
+
   },
   '--------- Actual Environments -------'
 );

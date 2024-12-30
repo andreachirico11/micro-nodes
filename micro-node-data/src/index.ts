@@ -14,7 +14,7 @@ import { mongooseConnect } from './configs/mongoose';
   }
 
   try {
-    mongooseConnect();
+    await mongooseConnect();
     log_info('Db connected');
   } catch (e) {
     log_error("Can't connect to db");

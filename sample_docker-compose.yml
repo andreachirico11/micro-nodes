@@ -52,12 +52,15 @@ services:
     environment:
       - PRODUCTION=true
       - PORT=80 # the same of internal ports if used
-      - MICRO_AUTH_URI=
-      - BASE_URL=api
-      - MONGO_URI=
-      - BYPASS_AUTH=
+      - BASE_URL=
+      - MICRO_AUTH_URI=http://micro-auth
+      # db uri sample, credentials are the same of mongo db container 
+      # if the db is inside a container change localhost with the container name
+      - MONGO_URI=mongodb://root:root@localhost:27017 
+      - MONGO_DB= # db name, create if not exists
+      - BYPASS_AUTH= # true or false
     depends_on:
-      - mongo
+      - mongo-data
   
   micro-static:
     container_name: micro-static
@@ -81,13 +84,13 @@ services:
       - micro-auth
       - mysql_db
 
-  mongo:
-    container_name: data
+  mongo-data:
+    container_name: mongo-data
     image: mongo:latest
     ports:
       - "x:y"
     volumes:
-      - mongo-data:/data/<<VOLUME NAME>>
+      - mongo-data-volume:/data/db
     environment:
       - MONGO_INITDB_ROOT_USERNAME=
       - MONGO_INITDB_ROOT_PASSWORD=admn
@@ -107,6 +110,6 @@ services:
       - "3306:3306" #must be the same of the one used by services
 
 volumes:
-  mongo-data:
+  mongo-data-volume:
   mysql_data:
   <<STATIC VOLUME NAME>>:
