@@ -103,10 +103,12 @@ export const getAppIfApikeyIsValid: RequestHandler = async (
 ) => {
   try {
     const {
-        headers: { api_key: apiKey },
-        query: {only_api_key}
+        headers,
+        query: { only_api_key },
       } = req,
       onlyApiKeyFlag = only_api_key === 'true';
+    const { "app-api-key": apiKey } = headers;
+    log_info(headers);
     if (!!!apiKey) {
       log_error('The key is missing');
       return new UnauthorizedResp(res, 'The key is missing');

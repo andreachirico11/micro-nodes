@@ -4,9 +4,9 @@ import { AuthErrorResponse, AuthSuccessResp } from './models';
 export class MicroAuthHelper {
   constructor(private baseUrl: string) {}
 
-  async checkToken(api_key: string, authorization: string): Promise<AuthSuccessResp | AuthErrorResponse> {
-    return await (
-      await fetch(this.baseUrl + '/auth', { headers: { api_key, authorization } })
+  async checkToken(appApiKey: string, authorization: string): Promise<AuthSuccessResp | AuthErrorResponse> {
+    return await(
+      await fetch(this.baseUrl + '/auth', { headers: { 'app-api-key': appApiKey, authorization } })
     ).json();
   }
 

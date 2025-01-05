@@ -36,9 +36,9 @@ export const addTableIfDoesntExists: RequestHandler = async (req: RequestWithBod
   try {
     const {
       body,
-      headers: { api_key },
+      headers: { 'app-api-key': apiKey },
       params: { tableName },
-      query: {unchecked_operations}
+      query: { unchecked_operations },
     } = req;
     const found = (await CollectionConfigModel.findOne({ tableName })) as unknown as CollectionConfig;
 
@@ -63,7 +63,7 @@ export const addTableIfDoesntExists: RequestHandler = async (req: RequestWithBod
       log_info(unchecked_operations, "These operations will be free from auth checking");
     CollectionConfigModel.init();
     const result = (await new CollectionConfigModel({
-      appApiKey: api_key,
+      appApiKey: apiKey,
       tableName,
       unCheckedOperations: uncheckedOpsSplitter(unchecked_operations) || DEFAULT_UNCHEKED_OPS,
       columns,

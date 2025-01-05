@@ -54,7 +54,7 @@ export const afterStoreFile: RequestHandler = async (req: StoreRequest, res, nex
 
 export const saveFileInfo: RequestHandler = async (req: StoreRequest, res, next) => {
   const { filePath, folderPath, type, fileName } = GetSetRequestProps.getFileInfo(req);
-  const { api_key: app_api_key } = req.headers;
+  const { "app-api-key": app_api_key } = req.headers;
   try {
     const { _id } = await StaticFileInfo.create({
       fileName,
@@ -73,7 +73,7 @@ export const saveFileInfo: RequestHandler = async (req: StoreRequest, res, next)
 
 export const getFile: RequestHandler = async (req: FileIdRequest, res, next) => {
   const { fileId } = req.params,
-    { api_key } = req.headers;
+    { 'app-api-key': apiKey } = req.headers;
   log_info('Getting file with id: ' + fileId);
   const foundFileInfo = await StaticFileInfo.findByPk(fileId);
   if (!foundFileInfo) {
@@ -81,7 +81,7 @@ export const getFile: RequestHandler = async (req: FileIdRequest, res, next) => 
     return new NotFoundResp(res, NON_EXISTENT);
   }
   log_info(foundFileInfo.dataValues, 'FILE INFO');
-  if (!!foundFileInfo.app_api_key && api_key !== foundFileInfo.app_api_key) {
+  if (!!foundFileInfo.app_api_key && apiKey !== foundFileInfo.app_api_key) {
     log_error('DIfferent api key');
     return new UnauthorizedResp(res);
   }

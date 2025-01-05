@@ -1,6 +1,6 @@
 import { Request } from 'express';
 
-export type HeaderApiKey = { api_key: string };
+export type HeaderApiKey = { "app-api-key": string };
 export type HeaderAuthorization = { authorization: string };
 
 export type SingleFileBody = {

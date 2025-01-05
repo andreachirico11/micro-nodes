@@ -12,7 +12,7 @@ export type UserIdParams = { userId: string };
 export type OnlyApiKeyQUery = { only_api_key: string };
 
 export type HeaderAdminToken = { admintoken: string };
-export type HeaderApiKey = { api_key: string };
+export type HeaderApiKey = { "app-api-key": string };
 export type HeaderAuthorization = { authorization: string };
 
 export type AddAppReqBody = Omit<IApp, '_id' | 'apiKey' | 'dateAdd'>;

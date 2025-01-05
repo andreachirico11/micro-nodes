@@ -24,9 +24,9 @@ export const authorize: RequestHandler = async (
     return next();
   }
   try {
-    const { headers: { api_key, authorization } } = req;
+    const { headers: { "app-api-key": apiKey, authorization } } = req;
 
-    if (!!!api_key) {
+    if (!!!apiKey) {
       log_error('Missing Api key');
       return new UnauthorizedResp(res, 'Missing Api key');
     }
@@ -44,12 +44,12 @@ export const authorize: RequestHandler = async (
       return new UnauthorizedResp(res, 'Missing Api key or token');
     }
     log_info(
-      `Check if the token << ${authorization} >> is valid for the api key << ${api_key} >>`,
+      `Check if the token << ${authorization} >> is valid for the api key << ${apiKey} >>`,
       `The route is protected`
     );
     NodeTlsHandler.disableTls();
 
-    const response = await AuthHelper.checkToken(api_key, authorization);
+    const response = await AuthHelper.checkToken(apiKey, authorization);
 
     if (isAuthErrorResponse(response)) {
       tableRemover.eliminateTableIfScheduled();

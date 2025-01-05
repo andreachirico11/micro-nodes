@@ -7,7 +7,7 @@ export type TableNameParams = { tableName: string };
 export type UncheckedOperationsQUery = {unchecked_operations: string};
 
 export type HeaderBase = { [key: string]: string };
-export type HeaderApiKey = { api_key: string };
+export type HeaderApiKey = { "app-api-key": string };
 export type HeaderAuthorization = { authorization: string };
 export type HeaderDropColl = { drop_if_empty: string };
 
