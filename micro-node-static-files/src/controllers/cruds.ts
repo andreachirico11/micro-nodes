@@ -1,6 +1,8 @@
 import { Request, RequestHandler } from 'express';
+import { existsSync } from 'fs';
 import * as multer from 'multer';
 import { multerSingle } from '../configs/multer';
+import { StaticFileInfo } from '../model/StaticFileInfo';
 import {
   NotFoundResp,
   ServerErrorResp,
@@ -16,15 +18,10 @@ import {
   multerErrorHandling,
   NON_EXISTENT,
 } from '../types/ErrorCodes';
+import { FileIdRequest, StoreRequest } from '../types/Requests';
+import deleteFileFs, { deleteFileFsAsync } from '../utils/deleteFileFs';
 import { GetSetRequestProps } from '../utils/GetSetAppInRequest';
 import { log_error, log_info } from '../utils/log';
-import { STORAGE_PATH } from '../configs/Envs';
-import { getFilePathWithTItle } from '../utils/path-utils';
-import { existsSync, rmdirSync, rmSync } from 'fs';
-import { StaticFileInfo } from '../model/StaticFileInfo';
-import { FileIdRequest, StoreRequest } from '../types/Requests';
-import { createTransaction } from '../configs/sequelize';
-import deleteFileFs, { deleteFileFsAsync } from '../utils/deleteFileFs';
 
 export const storeFIle: RequestHandler = async (req: Request, res, next) => {
   multerSingle(req, res, function (e) {
@@ -73,7 +70,7 @@ export const saveFileInfo: RequestHandler = async (req: StoreRequest, res, next)
 
 export const getFile: RequestHandler = async (req: FileIdRequest, res, next) => {
   const { fileId } = req.params,
-    { 'app-api-key': apiKey } = req.headers;
+    { "app-api-key": apiKey } = req.headers;
   log_info('Getting file with id: ' + fileId);
   const foundFileInfo = await StaticFileInfo.findByPk(fileId);
   if (!foundFileInfo) {

@@ -36,7 +36,7 @@ export const addTableIfDoesntExists: RequestHandler = async (req: RequestWithBod
   try {
     const {
       body,
-      headers: { 'app-api-key': apiKey },
+      headers: { "app-api-key": apiKey },
       params: { tableName },
       query: { unchecked_operations },
     } = req;

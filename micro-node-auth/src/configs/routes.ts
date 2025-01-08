@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { isAdminTokenValid, getAdminByName, authenticateAdmin, updateAdminToken, getAdminToken, deleteAdmin, addAdmin, areAdminActionsEnabled } from "../controllers/admins";
-import { addApp, getAppById, updateApp, deleteApp, getAppIfApikeyIsValid } from "../controllers/apps";
+import { addApp, getAppById, updateApp, deleteApp, getAppIfApikeyIsValid, getAppApiKey } from "../controllers/apps";
 import { pingExternalSevices, getPing, getPingDb } from "../controllers/ping";
 import { unsupportedUrl } from "../controllers/unsuportedUrl";
 import { cascadeDeleteUsers, getUserByNameAndAppAndContinue, getUserByIdAndContinue, returnUser, getAllUsers, addUser, updateUser, deleteUser } from "../controllers/users";
@@ -18,6 +18,7 @@ router.all('*', configRequest);
 const appRouter = Router();
 appRouter.post('/', getRequestBodyValidator(appCreation), addApp);
 appRouter.put('/:appId', getAppById, getRequestBodyValidator(appUpdate), updateApp);
+appRouter.get('/:appId', getAppById, getAppApiKey);
 appRouter.delete('/:appId', getAppById, cascadeDeleteUsers, deleteApp);
 router.use('/app', isAdminTokenValid, appRouter);
 
@@ -33,12 +34,13 @@ authRouter.get(
   updateUserTokens,
   getUserToken
 );
-authRouter.get(
-  '/reset',
-  onResetTokenRequest,
-  updateUserTokens,
-  getUserToken
-);
+// TODO: finire
+// authRouter.get(
+//   '/reset',
+//   onResetTokenRequest,
+//   updateUserTokens,
+//   getUserToken
+// ); 
 authRouter.post(
   '/reset',
   getRequestBodyValidator(userPasswordChange),

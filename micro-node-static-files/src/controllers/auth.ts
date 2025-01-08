@@ -14,7 +14,7 @@ export const authorize: RequestHandler = async (req: AllProtectedRequests, res, 
   }
   try {
     const {
-      headers: { 'app-api-key': apiKey, authorization },
+      headers: { "app-api-key": apiKey, authorization },
     } = req;
 
     if (!!!apiKey) {

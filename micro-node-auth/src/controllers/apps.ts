@@ -1,14 +1,8 @@
-import { NextFunction, RequestHandler } from 'express';
-import { log_error, log_info } from '../utils/log';
+import { NextFunction, RequestHandler, Response } from 'express';
+import { NodeTlsHandler } from '../configs/Envs';
+import { HashHelper } from '../configs/HashHelper';
+import { isHashErrorResponse } from '../helpers/MIcroHashHelper';
 import { AppModel } from '../models/App';
-import {
-  NotFoundResp,
-  ServerErrorResp,
-  SuccessResponse,
-  UnauthorizedResp,
-  ValidationErrResp,
-} from '../types/ApiResponses';
-import { INTERNAL_SERVER, NON_EXISTENT } from '../types/ErrorCodes';
 import {
   AddAppReq,
   DeleteAppReq,
@@ -17,14 +11,18 @@ import {
   ReqWithCustHeaderAndQuery,
   RequestWithAppIdInBody,
   RequestWithAppIdInParams,
-  RequestWithCustomHeader,
-  UpdateAppReq,
+  UpdateAppReq
 } from '../models/RequestTypes';
+import {
+  NotFoundResp,
+  ServerErrorResp,
+  SuccessResponse,
+  UnauthorizedResp,
+  ValidationErrResp,
+} from '../types/ApiResponses';
+import { INTERNAL_SERVER, NON_EXISTENT } from '../types/ErrorCodes';
 import { GetSetRequestProps } from '../utils/GetSetAppInRequest';
-import { Response } from 'express';
-import { isHashErrorResponse } from '../helpers/MIcroHashHelper';
-import { HashHelper } from '../configs/HashHelper';
-import { NodeTlsHandler } from '../configs/Envs';
+import { log_error, log_info } from '../utils/log';
 
 export const getAppById: RequestHandler = async (req: RequestWithAppIdInParams, res, next) => {
   try {
@@ -44,6 +42,12 @@ export const getAppById: RequestHandler = async (req: RequestWithAppIdInParams, 
     log_error(e, 'Error updating new app');
     return new ServerErrorResp(res, INTERNAL_SERVER);
   }
+};
+
+export const getAppApiKey: RequestHandler = async (req, res) => {
+  log_info("Sending app api key to the client");
+  const {apiKey} = GetSetRequestProps.getApp(req)
+  return new SuccessResponse(res, {apiKey});
 };
 
 export const addApp: RequestHandler = async ({ body }: AddAppReq, res) => {
@@ -123,7 +127,7 @@ export const getAppIfApikeyIsValid: RequestHandler = async (
     if (linkedApp.canCheckWithApiKeyOnly && onlyApiKeyFlag) {
       log_info(
         'SUCCESS',
-        'The request ask to check with the api key only and this feature is enabled on this app'
+        'Check with API key only passed'
       );
       return new SuccessResponse(res);
     }

@@ -6,7 +6,7 @@ export class MicroAuthHelper {
 
   async checkToken(appApiKey: string, authorization: string): Promise<AuthSuccessResp | AuthErrorResponse> {
     return await(
-      await fetch(this.baseUrl + '/auth', { headers: { 'app-api-key': appApiKey, authorization } })
+      await fetch(this.baseUrl + '/auth', { headers: { "app-api-key": appApiKey, authorization } })
     ).json();
   }
 
