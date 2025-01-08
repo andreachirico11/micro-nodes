@@ -5,7 +5,7 @@ import {
   ServerErrorResp,
   SuccessResponse
 } from '../types/ApiResponses';
-import { INTERNAL_SERVER, NON_EXISTENT } from '../types/ErrorCodes';
+import { INTERNAL_SERVER, NON_EXISTENT, UNAUTHORIZED } from '../types/ErrorCodes';
 import { UserModel } from '../models/User';
 import {
   AddUserReq, AuthRequest,
@@ -19,6 +19,21 @@ import { NodeTlsHandler } from '../configs/Envs';
 import callMicroHash from '../utils/callMicroHash';
 
 export const getAllUsers: RequestHandler = async (
+  req: RequestWithCustomHeader<any, any, any, HeaderApiKey>,
+  res
+) => {
+  try {
+    log_info('Retrieving all users' );
+    const users = await UserModel.findAll();
+    log_info('Number of users found: ' + users.length);
+    return new SuccessResponse(res, { users });
+  } catch (e) {
+    log_error(e, 'Error creating new user');
+    return new ServerErrorResp(res, INTERNAL_SERVER);
+  }
+};
+
+export const getAllAppUsers: RequestHandler = async (
   req: RequestWithCustomHeader<any, any, any, HeaderApiKey>,
   res
 ) => {
@@ -77,6 +92,11 @@ export const getUserByIdAndContinue: RequestHandler = async (
       return new NotFoundResp(res, NON_EXISTENT);
     }
     log_info('User Found');
+    const {_id: app_id} = GetSetRequestProps.getApp(req);
+    if (foundUser.app_id !== app_id) {
+      log_error("User doesn't exists for this app");
+      return new NotFoundResp(res, UNAUTHORIZED)
+    }
     GetSetRequestProps.setUser(req, foundUser);
     next();
   } catch (e) {

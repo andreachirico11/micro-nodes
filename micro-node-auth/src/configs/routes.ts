@@ -3,7 +3,7 @@ import { isAdminTokenValid, getAdminByName, authenticateAdmin, updateAdminToken,
 import { addApp, getAppById, updateApp, deleteApp, getAppIfApikeyIsValid, getAppApiKey } from "../controllers/apps";
 import { pingExternalSevices, getPing, getPingDb } from "../controllers/ping";
 import { unsupportedUrl } from "../controllers/unsuportedUrl";
-import { cascadeDeleteUsers, getUserByNameAndAppAndContinue, getUserByIdAndContinue, returnUser, getAllUsers, addUser, updateUser, deleteUser } from "../controllers/users";
+import { cascadeDeleteUsers, getUserByNameAndAppAndContinue, getUserByIdAndContinue, returnUser, getAllUsers, addUser, updateUser, deleteUser, getAllAppUsers } from "../controllers/users";
 import { configRequest } from "../controllers/utils";
 import { getRequestBodyValidator, checkAppPasswordRequirementsForNewUser, checkAppPasswordRequirementsForPasswordChange } from "../controllers/validators";
 import { adminCreation } from "../utils/validators/Admin";
@@ -70,7 +70,10 @@ router.use('/admin', areAdminActionsEnabled, adminRouter);
 
 const userRouter = Router();
 userRouter.get('/:userId', getUserByIdAndContinue, returnUser);
-userRouter.get('/', getAllUsers);
+userRouter.get('/', getAllAppUsers);
+router.use('/user',  getAppIfApikeyIsValid, userRouter);
+
+const userAdminRouter = Router();
 userRouter.post('/', getRequestBodyValidator(userCreation), checkAppPasswordRequirementsForNewUser, addUser);
 userRouter.put(
   '/:userId',
@@ -79,7 +82,9 @@ userRouter.put(
   updateUser
 );
 userRouter.delete('/:userId', getUserByIdAndContinue, deleteUser);
-router.use('/user', getAppIfApikeyIsValid, userRouter);
+router.use('/user', isAdminTokenValid, getAppIfApikeyIsValid, userAdminRouter);
+router.get('/allUsers', isAdminTokenValid, getAllUsers);
+
 
 router.get('/ping/db', getPingDb);
 router.get('/ping/ext', pingExternalSevices);
