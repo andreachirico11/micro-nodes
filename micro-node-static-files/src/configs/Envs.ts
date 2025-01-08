@@ -17,6 +17,8 @@ const defaultEnvs: IEnvs = {
   DB_PASSWORD: '',
   DB_NAME: '',
   DB_SSL: false,
+
+  TLS_BYPASS: false,
 };
 
 let { error, parsed: preParsingVars } = config({});
@@ -28,17 +30,26 @@ const parsedEnvs = dotenvParseVariables(preParsingVars) as IEnvs;
 
 export class NodeTlsHandler {
   static disableTls() {
-  log_info('Disabling tls');
+    if (!this.activated) return;
+    log_info('Disabling tls');
     this.tls = false;
   }
 
   static enableTls() {
+    if (!this.activated) return;
     log_info('Enabling tls');
     this.tls = true;
   }
 
   private static set tls(value: boolean) {
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = value ? "1" : "0";
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = value ? '1' : '0';
+  }
+
+  private static activated = null;
+
+  static setup(isActivated: boolean) {
+    if (this.activated !== null) return;
+    this.activated = isActivated;
   }
 }
 
@@ -58,9 +69,10 @@ export const {
   DB_PORT = defaultEnvs.DB_PORT,
   DB_USER = defaultEnvs.DB_USER,
   DB_SSL = defaultEnvs.DB_SSL,
+  TLS_BYPASS = defaultEnvs.TLS_BYPASS,
 } = parsedEnvs;
 
-
+NodeTlsHandler.setup(TLS_BYPASS);
 
 log_info(
   {
@@ -76,6 +88,7 @@ log_info(
     DB_PORT,
     DB_USER,
     DB_SSL,
+    TLS_BYPASS,
   },
   '--------- Actual Environments -------'
 );

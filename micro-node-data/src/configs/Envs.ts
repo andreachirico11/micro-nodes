@@ -9,10 +9,11 @@ const defaultEnvs: IEnvs = {
   PRODUCTION: false,
   BASE_URL: '',
   MONGO_URI: '',
-  MICRO_AUTH_URI:'',
+  MICRO_AUTH_URI: '',
   BYPASS_AUTH: false,
   CONFIGS_COLLECTION_NAME: 'collection_config',
-  MONGO_DB: 'micro-data'
+  MONGO_DB: 'micro-data',
+  TLS_BYPASS: false,
 };
 
 let { error, parsed: preParsingVars } = config({});
@@ -24,17 +25,26 @@ const parsedEnvs = dotenvParseVariables(preParsingVars) as IEnvs;
 
 export class NodeTlsHandler {
   static disableTls() {
-  log_info('Disabling tls');
+    if (!this.activated) return;
+    log_info('Disabling tls');
     this.tls = false;
   }
 
   static enableTls() {
+    if (!this.activated) return;
     log_info('Enabling tls');
     this.tls = true;
   }
 
   private static set tls(value: boolean) {
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = value ? "1" : "0";
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = value ? '1' : '0';
+  }
+
+  private static activated = null;
+
+  static setup(isActivated: boolean) {
+    if (this.activated !== null) return;
+    this.activated = isActivated;
   }
 }
 
@@ -46,10 +56,13 @@ export const {
   MICRO_AUTH_URI = defaultEnvs.MICRO_AUTH_URI,
   BYPASS_AUTH = defaultEnvs.BYPASS_AUTH,
   CONFIGS_COLLECTION_NAME = defaultEnvs.CONFIGS_COLLECTION_NAME,
-  MONGO_DB = defaultEnvs.MONGO_DB
+  MONGO_DB = defaultEnvs.MONGO_DB,
+  TLS_BYPASS = defaultEnvs.TLS_BYPASS,
 } = parsedEnvs;
 
 export const DEFAULT_UNCHEKED_OPS: CrudOperations[] = [CrudOperations.GET];
+
+NodeTlsHandler.setup(TLS_BYPASS);
 
 log_info(
   {
@@ -60,8 +73,8 @@ log_info(
     MICRO_AUTH_URI,
     BYPASS_AUTH,
     CONFIGS_COLLECTION_NAME,
-    MONGO_DB
-
+    MONGO_DB,
+    TLS_BYPASS,
   },
   '--------- Actual Environments -------'
 );

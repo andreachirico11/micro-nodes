@@ -13,5 +13,6 @@ export default interface IEnvs extends ParsedVariables {
   DB_PASSWORD: string;
   DB_NAME: string;
   DB_SSL: boolean;
+  TLS_BYPASS: boolean;
 }
   

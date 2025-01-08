@@ -9,4 +9,5 @@ export default interface IEnvs extends ParsedVariables {
   MICRO_AUTH_URI: string;
   BYPASS_AUTH: boolean;
   CONFIGS_COLLECTION_NAME: string;
+  TLS_BYPASS: boolean;
 }
