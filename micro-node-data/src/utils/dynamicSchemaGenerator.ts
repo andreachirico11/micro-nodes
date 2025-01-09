@@ -23,9 +23,9 @@ const getFlags = (c: Column) => {
 const constructorOrSchema = (c: Column) => {
   const {children, require } = c;
   const {arrayCase, objectCase} = getFlags(c);
-  if (arrayCase) return { type: [getSchema(children)], require };
+  if (arrayCase) return { _id: false, type: [getSchema(children)], require };
   if (objectCase) return getSchema(children);
-  return {
+  return { _id: false,
     require,
     type: columnConfigs(c).constructorType
   };
@@ -43,8 +43,8 @@ const getValidatorOrChildren = (c: Column) => {
   return columnConfigs(c).validator;
 };
 
-const schemaGenerator = ({ tableName, columns }: CollectionConfigProps) => {
-  return model<any>(tableName, getSchema(columns));
+const schemaGenerator = ({ tableName, columns }: CollectionConfigProps) => {  
+  return model<any>(tableName, getSchema(columns), null, {overwriteModels: true});
 };
 
 
