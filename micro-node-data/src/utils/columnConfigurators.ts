@@ -43,7 +43,7 @@ export const columnConfigs = (c: Column) => {
 const isSupported = (stringType: any) => Object.values(HandledTypes).includes(stringType);
 
 const generateColumn = (name: string, value: any): Column => {
-  let columnType: any = typeof value, require = true, children = null;
+  let columnType: any = typeof value, require = true, children = [];
   if (value === null) {
     // HOW TO solve required problem
     // if a field is null will become of type undefined

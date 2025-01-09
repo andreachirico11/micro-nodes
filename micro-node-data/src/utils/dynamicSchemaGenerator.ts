@@ -31,8 +31,8 @@ const constructorOrSchema = (c: Column) => {
   };
 };
 
-const getSchema = (columns: Column[]) => {
-  return new Schema(reducer(columns, constructorOrSchema), { versionKey: false });
+const getSchema = (columns: Column[], _id = false) => {
+  return new Schema(reducer(columns, constructorOrSchema), { versionKey: false, _id  });
 };
 
 const getValidatorOrChildren = (c: Column) => {
@@ -44,7 +44,7 @@ const getValidatorOrChildren = (c: Column) => {
 };
 
 const schemaGenerator = ({ tableName, columns }: CollectionConfigProps) => {  
-  return model<any>(tableName, getSchema(columns), null, {overwriteModels: true});
+  return model<any>(tableName, getSchema(columns, true), null, {overwriteModels: true,});
 };
 
 

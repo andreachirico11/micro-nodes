@@ -3,38 +3,42 @@ import Column from '../types/Column';
 import { CONFIGS_COLLECTION_NAME } from '../configs/Envs';
 import { CrudOperations } from '../types/CrudOperations';
 
-
-
 export interface CollectionConfigProps {
   tableName: string;
   appApiKey: string;
   columns: Column[];
-  unCheckedOperations:  CrudOperations[];
+  unCheckedOperations: CrudOperations[];
 }
 
-export type CollectionConfig  = Document & CollectionConfigProps;
+export type CollectionConfig = Document & CollectionConfigProps;
 
 const ColSchema = new Schema(
   {
     name: String,
     require: Boolean,
     columnType: String
-},
-{ versionKey: false })
+  },
+  { _id: false, versionKey: false }
+);
 
-ColSchema.add(new Schema({
-  children: [ColSchema]
-}));
-
+ColSchema.add(
+  new Schema(
+    {
+      children: [ColSchema],
+    },
+    { _id: false, versionKey: false }
+  )
+);
 
 const schema = new Schema(
   {
     tableName: { type: String, require: true },
     appApiKey: { type: String, require: true },
-    unCheckedOperations: [{type: String, enum: CrudOperations}],
+    unCheckedOperations: [{ type: String, enum: CrudOperations }],
     columns: {
       type: [ColSchema],
       require: true,
+      _id: false,
     },
   },
   { versionKey: false }

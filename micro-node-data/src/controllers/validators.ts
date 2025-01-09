@@ -20,6 +20,8 @@ export const dynamicValidator: RequestHandler = async (req: RequestWithBody, res
     if (e instanceof ValidationError) {
       message = e.message;
       log_error(message);
+    } else {
+      log_error(e, message)
     }
     tableRemover.eliminateTableIfScheduled();
     new ValidationErrResp(res, [message]);
