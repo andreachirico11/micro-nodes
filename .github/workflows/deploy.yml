@@ -1,0 +1,25 @@
+name: Build & Deploy
+on:
+  push:
+    branches: [main]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: deploy all microservices
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          key: ${{secrets.SSH_KEY }}
+          username: ${{ secrets.SSH_NAME }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            rm -rf MICRO-NODES-PROD
+            mkdir MICRO-NODES-PROD
+            cd MICRO-NODES-PROD
+            echo 'Wiped previous version'
+            git clone https://github.com/andreachirico11/micro-nodes.git
+            echo 'Cloned from git'
