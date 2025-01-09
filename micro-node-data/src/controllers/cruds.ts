@@ -98,3 +98,17 @@ export const remove: RequestHandler = async (req: DeleteRequest, res) => {
     return new ServerErrorResp(res, NON_EXISTENT);
   }
 };
+
+export const destroy: RequestHandler = async (req: RequestEmpty, res) => {
+  try {
+    log_info('Deleting entire collection');
+    await DynamicModel.deleteAll()
+    await GetSetRequestProps.getTableModel(req).deleteOne();
+    const message = `Successfully deleted`;
+    log_info(message);
+    return new SuccessResponse(res);
+  } catch (error) {
+    log_error(error, 'There was an error deleting the collection');
+    return new ServerErrorResp(res, NON_EXISTENT);
+  }
+};

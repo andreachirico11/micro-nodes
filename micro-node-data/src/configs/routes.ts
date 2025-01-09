@@ -4,7 +4,7 @@ import { unsupportedUrl } from "../controllers/unsuportedUrl";
 import { configRequest } from "../controllers/utils";
 import { authorize } from "../controllers/auth";
 import { addTableIfDoesntExists, generateModelFromTable, retrieveTableModel } from "../controllers/table";
-import { getAll, post, get, remove, put } from "../controllers/cruds";
+import { getAll, post, get, remove, put, destroy } from "../controllers/cruds";
 import { dynamicValidator } from "../controllers/validators";
 
 const router = Router();
@@ -17,6 +17,7 @@ router.post("/:tableName", addTableIfDoesntExists, authorize, dynamicValidator, 
 
 const crudRouter = Router();
 crudRouter.delete("/:id",generateModelFromTable, remove);
+crudRouter.delete('/', generateModelFromTable, destroy);
 crudRouter.put("/:id", dynamicValidator, generateModelFromTable,  put);
 crudRouter.get("/:id", generateModelFromTable, get);
 crudRouter.get("/", generateModelFromTable, getAll);

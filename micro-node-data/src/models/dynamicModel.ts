@@ -44,12 +44,16 @@ export abstract class DynamicModel {
     const count = await this._model.countDocuments();
     let hasBeenDeleted =  true;
     if (dropCollectionifEmpty && count === 1) {
-      await this._model.db.dropCollection(this._model.collection.name);
+      this.deleteAll();
     } else {
       hasBeenDeleted = !!(await this._model.findByIdAndDelete(_id));
     }
     deleteModel(this.modelName);
     return hasBeenDeleted;
+  }
+
+  public static async deleteAll() {
+    return await this._model.db.dropCollection(this._model.collection.name);
   }
 
   private static deleteResource<T>(action: () => Promise<T>) {
