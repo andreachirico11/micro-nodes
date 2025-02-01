@@ -20,6 +20,19 @@ if (error) {
   log_info(error, '.env file not found, using process envs');
   preParsingVars = process.env;
 }
+
+
+
+const MICRO_PREFIX = 'MICRO_CRYPT_';
+preParsingVars = Object.keys(preParsingVars)
+.filter((key) => key.startsWith(MICRO_PREFIX))
+.reduce(
+  (acc, key) => ({
+    ...acc,
+    [key.replace(MICRO_PREFIX, '')]: preParsingVars[key],
+  }),
+  {}
+);
 const parsedEnvs = dotenvParseVariables(preParsingVars) as IEnvs;
 
 export const {

@@ -1,0 +1,14 @@
+MICRO_STATIC_PRODUCTION=<< true or false >>
+MICRO_STATIC_PORT=<< port numer >>
+MICRO_STATIC_BASE_URL=<< url base for api service >>
+MICRO_STATIC_MICRO_AUTH_URI==<< micro auth url location>>
+MICRO_STATIC_BYPASS_AUTH=<< true or false, ONLY FOR TESTING  >>
+MICRO_STATIC_STORAGE_PATH==<< where files are stored >>
+MICRO_STATIC_FILE_MAX_SIZE==<< single file max size, default value 20000000>>
+MICRO_STATIC_DB_HOST=
+MICRO_STATIC_DB_NAME=
+MICRO_STATIC_DB_PASSWORD=
+MICRO_STATIC_DB_PORT=
+MICRO_STATIC_DB_USER=
+MICRO_STATIC_DB_SSL=<< ssl verification, default value false>>
+MICRO_STATIC_TLS_BYPASS=<< bypass node js tls verification, default value false>

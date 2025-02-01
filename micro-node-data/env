@@ -1,0 +1,9 @@
+MICRO_DATA_PRODUCTION=<< true or false >>
+MICRO_DATA_PORT=<< port numer >>
+MICRO_DATA_BASE_URL=<< url base for api service >>
+MICRO_DATA_MONGO_URI=<< db connection uri >>
+MICRO_DATA_MONGO_DB=<< db name. default micro-data >>
+MICRO_DATA_MICRO_AUTH_URI==<< micro auth url location>>
+MICRO_DATA_BYPASS_AUTH=<< true or false, ONLY FOR TESTING  >>
+MICRO_DATA_CONFIGS_COLLECTION_NAME==<< the name of the table which contains configs for collections, the default is collection_configs>>
+MICRO_DATA_TLS_BYPASS=<< bypass node js tls verification, default value false>

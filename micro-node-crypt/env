@@ -1,0 +1,9 @@
+MICRO_CRYPT_PRODUCTION=<< true or false >>
+MICRO_CRYPT_PORT=<< port numer >>
+MICRO_CRYPT_BASE_URL=<< url base for api service >>
+MICRO_CRYPT_ALGORYTHM=<< used for cyphering, the default is aes256 >>
+MICRO_CRYPT_INPUT_ENCODING=<< cyphering input, default is utf-8>>
+MICRO_CRYPT_OUTPUT_ENCODING=<< cyphering output, default is hex>>
+MICRO_CRYPT_SALT_ROUNDS=<< rounds for generating bcrypt salt, default is 12>>
+MICRO_CRYPT_API_KEY_CHARS==<< chars used to build random api keys >>
+MICRO_CRYPT_API_KEY_DEFAULT_LENGTH==<< chars used to build random api keys >>

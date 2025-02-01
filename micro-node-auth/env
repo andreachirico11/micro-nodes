@@ -1,0 +1,13 @@
+MICRO_AUTH_PRODUCTION=<< true or false >>
+MICRO_AUTH_PORT=<< port numer >>
+MICRO_AUTH_BASE_URL=<< url base for api service >>
+MICRO_AUTH_SYMBOLS_REGEX==<< Regex used by default to verify symbols, normally it's included into Apps models>>
+MICRO_AUTH_MICRO_HASH_URI=<< Node js microservice for hashing and crypting url >>
+MICRO_AUTH_ADMIN_CRUDS=<< true or false, these action are not protected so they have to be activated from here, the idea is use them only once to generate some admins>>
+MICRO_AUTH_DB_HOST=
+MICRO_AUTH_DB_NAME=
+MICRO_AUTH_DB_PASSWORD=
+MICRO_AUTH_DB_PORT=
+MICRO_AUTH_DB_USER=
+MICRO_AUTH_DB_SSL=<< ssl verification, default value false>>
+MICRO_AUTH_TLS_BYPASS=<< bypass node js tls verification, default value false>

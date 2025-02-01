@@ -130,6 +130,6 @@ dist
 .pnp.*
 
 
-.env
+.env*
 .vscode/
 docker-compose.yml
