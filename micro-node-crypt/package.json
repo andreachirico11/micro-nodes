@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "nodemon --inspect src/index.ts",
     "build": "tsc -p tsconfig.production.json",
+    "build2": "tsc",
     "start": "node dist/index.js"
   },
   "author": "Andrea Chirico",

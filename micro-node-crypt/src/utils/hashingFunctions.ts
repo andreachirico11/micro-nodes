@@ -1,5 +1,5 @@
 import { SALT_ROUNDS } from '../configs/Envs';
-import { log_info } from './log';
+import { log_info } from '../../../micro-shared';
 import {hashSync, compareSync} from 'bcrypt';
 
 export const hasher = (input: string) => {

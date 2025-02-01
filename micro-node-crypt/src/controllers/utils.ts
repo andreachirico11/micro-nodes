@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { log_info } from '../utils/log';
+import { log_info } from '../../../micro-shared';
 import { getClientIp } from 'request-ip';
 
 export const configRequest: RequestHandler = async (req, _, next) => {

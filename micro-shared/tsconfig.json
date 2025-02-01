@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2022",
+    "module": "CommonJS",
+    "declaration": true,
+    "declarationMap": true,
+    "rootDir": ".",
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "composite": true
+  },
+  "references": []
+}

@@ -1,7 +1,7 @@
 import { config } from 'dotenv';
 import * as dotenvParseVariables from 'dotenv-parse-variables';
 import IEnvs from '../types/IEnvs';
-import { log_info } from '../utils/log';
+import { log_info } from '../../../micro-shared';
 
 const defaultEnvs: IEnvs = {
   PORT: 3000,
