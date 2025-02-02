@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { ServerErrorResp, SuccessResponse } from '../types/ApiResponses';
-import { log_info } from '../../../micro-shared';
+import { log_info } from 'micro-nodes-shared';
 import { CompareReq, HashReq } from '../types/RequestTypes';
 import { INTERNAL_SERVER } from '../types/ErrorCodes';
 import {hasher, comparer } from '../utils/hashingFunctions';

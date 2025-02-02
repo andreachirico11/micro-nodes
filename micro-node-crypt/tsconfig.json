@@ -8,10 +8,5 @@
     "rootDir": "src",
     "outDir": "dist",
     "sourceMap": true
-  },
-  "references": [
-    {
-      "path": "../micro-shared/"
-    }
-  ]
+  }
 }

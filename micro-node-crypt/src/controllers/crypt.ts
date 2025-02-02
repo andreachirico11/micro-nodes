@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { BadDecrypt, ServerErrorResp, SuccessResponse } from '../types/ApiResponses';
-import { log_error, log_info } from '../../../micro-shared';
+import { log_error, log_info } from 'micro-nodes-shared';
 import { CryptReq } from '../types/RequestTypes';
 import { cypher, decypher as decrpyter } from '../utils/cryptFunctions';
 import { INTERNAL_SERVER } from '../types/ErrorCodes';

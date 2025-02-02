@@ -1,6 +1,6 @@
 import { createCipheriv, createDecipheriv, randomBytes } from 'crypto';
 import { ALGORYTHM, INPUT_ENCODING, OUTPUT_ENCODING } from '../configs/Envs';
-import { log_info } from '../../../micro-shared';
+import { log_info } from 'micro-nodes-shared';
 
 let initVector;
 let keyParser;

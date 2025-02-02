@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { SuccessResponse } from '../types/ApiResponses';
-import { log_info } from '../../../micro-shared';
+import { log_info } from 'micro-nodes-shared';
 import { API_KEY_CHARS, API_KEY_DEFAULT_LENGTH } from '../configs/Envs';
 import getKey from '../utils/apiKeyGenerator';
 
