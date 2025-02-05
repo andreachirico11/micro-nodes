@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { isHashErrorResponse } from '../helpers/MIcroHashHelper';
+import { isHashErrorResponse } from 'micro-nodes-shared';
 import {
   AuthCheckRequest,
   AuthRequest,
@@ -7,12 +7,16 @@ import {
   ResetTokenRequest,
 } from '../models/RequestTypes';
 import { UserModel } from '../models/User';
-import { UnauthorizedResp, SuccessResponse, ServerErrorResp } from '../types/ApiResponses';
-import { INTERNAL_SERVER } from '../types/ErrorCodes';
+import {
+  UnauthorizedResp,
+  SuccessResponse,
+  ServerErrorResp,
+  NodeTlsHandler,
+} from 'micro-nodes-shared';
+import { INTERNAL_SERVER } from 'micro-nodes-shared';
 import { GetSetRequestProps } from '../utils/GetSetAppInRequest';
 import { getActualDateWithAddedMilliseconds, isDateInThePast } from '../utils/dates';
 import { log_info, log_error } from 'micro-nodes-shared';
-import { NodeTlsHandler } from '../configs/Envs';
 import { HashHelper } from '../configs/HashHelper';
 import callMicroHash from '../utils/callMicroHash';
 

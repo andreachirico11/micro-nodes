@@ -1,9 +1,8 @@
 import { Router } from "express";
 import { afterStoreFile,  deleteFile,  getFile,  saveFileInfo,  storeFIle } from "../controllers/cruds";
 import { getPing, getPingDb, pingExternalSevices } from "../controllers/ping";
-import { unsupportedUrl } from "../controllers/unsuportedUrl";
 import { authorize } from "../controllers/auth";
-import { configRequest } from "../controllers/config";
+import { configRequest, unsupportedUrl } from "micro-nodes-shared";
 
 const router = Router();
 

@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { ObjectSchema, ValidationError } from 'yup';
 import { log_error, log_info } from 'micro-nodes-shared';
-import { ValidationErrResp } from '../types/ApiResponses';
+import { ValidationErrResp } from 'micro-nodes-shared';
 import { AddUserReq, ChangePasswordRequest, UpdateUserReq } from '../models/RequestTypes';
 import { GetSetRequestProps } from '../utils/GetSetAppInRequest';
 import generatePasswordSchema from '../utils/validators/Password';

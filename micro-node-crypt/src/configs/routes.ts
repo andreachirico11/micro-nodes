@@ -1,13 +1,12 @@
 import { getPing } from '../controllers/ping';
 import { Router } from 'express';
-import { unsupportedUrl } from '../controllers/unsuportedUrl';
 import { crypt, decrypt } from '../controllers/crypt';
 import { getRequestBodyValidator } from '../controllers/validators';
 import { cryptValidator } from '../validators/crypt';
 import { compareValidator, hashValidator } from '../validators/hash';
 import { compare, hash } from '../controllers/hash';
-import { configRequest } from '../controllers/utils';
 import { getApiKey } from '../controllers/apiKey';
+import { configRequest, unsupportedUrl } from 'micro-nodes-shared';
 
 const router = Router();
 router.all("*", configRequest)

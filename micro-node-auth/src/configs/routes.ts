@@ -2,14 +2,13 @@ import { Router } from "express";
 import { isAdminTokenValid, getAdminByName, authenticateAdmin, updateAdminToken, getAdminToken, deleteAdmin, addAdmin, areAdminActionsEnabled } from "../controllers/admins";
 import { addApp, getAppById, updateApp, deleteApp, getAppIfApikeyIsValid, getAppApiKey } from "../controllers/apps";
 import { pingExternalSevices, getPing, getPingDb } from "../controllers/ping";
-import { unsupportedUrl } from "../controllers/unsuportedUrl";
 import { cascadeDeleteUsers, getUserByNameAndAppAndContinue, getUserByIdAndContinue, returnUser, getAllUsers, addUser, updateUser, deleteUser, getAllAppUsers } from "../controllers/users";
-import { configRequest } from "../controllers/utils";
 import { getRequestBodyValidator, checkAppPasswordRequirementsForNewUser, checkAppPasswordRequirementsForPasswordChange } from "../controllers/validators";
 import { adminCreation } from "../utils/validators/Admin";
 import { appCreation, appUpdate } from "../utils/validators/App";
 import { userAuth, userCreation, userPasswordChange, userUpdate } from "../utils/validators/User";
 import { onRefreshAuthToken, updateUserTokens, getUserToken, authenticateUser, checkAuthToken, onResetTokenRequest, changeUserPassword } from "../controllers/auth";
+import { configRequest, unsupportedUrl } from "micro-nodes-shared";
 
 const router = Router();
 

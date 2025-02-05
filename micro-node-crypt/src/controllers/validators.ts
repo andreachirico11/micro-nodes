@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { ObjectSchema, ValidationError } from 'yup';
 import { log_error, log_info } from 'micro-nodes-shared';
-import { ValidationErrResp } from '../types/ApiResponses';
+import { ValidationErrResp } from 'micro-nodes-shared';
 
 export const getRequestBodyValidator = (schema: ObjectSchema<any>) => {
   return function ({ body }, res, next) {

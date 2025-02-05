@@ -1,11 +1,11 @@
 import { RequestHandler } from 'express';
 import { AllProtectedRequests } from '../types/Requests';
 import { log_error, log_info } from 'micro-nodes-shared';
-import { ServerErrorResp, UnauthorizedResp } from '../types/ApiResponses';
-import { INTERNAL_SERVER } from '../types/ErrorCodes';
+import { ServerErrorResp, UnauthorizedResp } from 'micro-nodes-shared';
+import { INTERNAL_SERVER } from 'micro-nodes-shared';
 import { AuthHelper } from '../configs/MicroHelper';
-import { isAuthErrorResponse } from '../helpers/MIcroAuthHelper';
-import { BYPASS_AUTH, NodeTlsHandler } from '../configs/Envs';
+import { isAuthErrorResponse, NodeTlsHandler } from 'micro-nodes-shared';
+import { BYPASS_AUTH } from '../configs/Envs';
 import { GetSetRequestProps } from '../utils/GetSetAppInRequest';
 import { CrudOperations } from '../types/CrudOperations';
 import tableRemover from '../utils/tableRemover';

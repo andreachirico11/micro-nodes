@@ -1,14 +1,15 @@
-import { PORT } from './configs/Envs';
-import { log_error, log_fatal, log_info } from 'micro-nodes-shared';
-import express from './configs/express';
+import { BASE_URL, PORT } from './configs/Envs';
+import { log_error, log_fatal, log_info, configApp } from 'micro-nodes-shared';
+import * as express from 'express';
 import { Application } from 'express';
 import { mongooseConnect } from './configs/mongoose';
+import router from './configs/routes';
 
 (async function () {
   let app: Application;
 
   try {
-    app = express();
+    app = configApp(express(), BASE_URL, router);
   } catch (e) {
     log_error(e, 'Error Configuring Express');
   }

@@ -1,11 +1,10 @@
 import { RequestHandler } from 'express';
 import { PingTest } from '../models/PingTest';
-import { log_error, log_info } from 'micro-nodes-shared';
-import { ServerErrorResp, SeviceUnavailable, SuccessResponse } from '../types/ApiResponses';
-import { GENERIC, NO_RESPONSE } from '../types/ErrorCodes';
+import { log_error, log_info, NodeTlsHandler } from 'micro-nodes-shared';
+import { ServerErrorResp, SeviceUnavailable, SuccessResponse } from 'micro-nodes-shared';
+import { GENERIC, NO_RESPONSE } from 'micro-nodes-shared';
 import { HashHelper } from '../configs/HashHelper';
 import { GetSetRequestProps } from '../utils/GetSetAppInRequest';
-import { NodeTlsHandler } from '../configs/Envs';
 
 export const getPing: RequestHandler = async (req, res) => {
   try {

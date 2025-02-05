@@ -1,27 +1,25 @@
 import { Request, RequestHandler } from 'express';
 import { existsSync } from 'fs';
-import * as multer from 'multer';
-import { multerSingle } from '../configs/multer';
-import { StaticFileInfo } from '../model/StaticFileInfo';
 import {
+  ErrorCodes,
+  FILE_EXISTS,
+  GENERIC,
+  INTERNAL_SERVER,
+  log_error, log_info,
+  NON_EXISTENT,
   NotFoundResp,
   ServerErrorResp,
   ServerErrorRespWithMessage,
   SuccessResponse,
   UnauthorizedResp,
-} from '../types/ApiResponses';
-import {
-  ALREADY_EXISTENT,
-  ErrorCodes,
-  GENERIC,
-  INTERNAL_SERVER,
-  multerErrorHandling,
-  NON_EXISTENT,
-} from '../types/ErrorCodes';
+  UPLOAD_ERROR
+} from 'micro-nodes-shared';
+import * as multer from 'multer';
+import { multerSingle } from '../configs/multer';
+import { StaticFileInfo } from '../model/StaticFileInfo';
 import { FileIdRequest, StoreRequest } from '../types/Requests';
 import deleteFileFs, { deleteFileFsAsync } from '../utils/deleteFileFs';
 import { GetSetRequestProps } from '../utils/GetSetAppInRequest';
-import { log_error, log_info } from 'micro-nodes-shared';
 
 export const storeFIle: RequestHandler = async (req: Request, res, next) => {
   multerSingle(req, res, function (e) {
@@ -39,10 +37,10 @@ export const afterStoreFile: RequestHandler = async (req: StoreRequest, res, nex
   let errCode: ErrorCodes = INTERNAL_SERVER;
   if (storingError instanceof multer.MulterError) {
     log_error(storingError.message, 'MULTER ERROR -> ' + storingError.code);
-    errCode = multerErrorHandling(storingError.code);
-  } else if (storingError.message === ALREADY_EXISTENT) {
+    errCode = UPLOAD_ERROR;
+  } else if (storingError.message === FILE_EXISTS) {
     log_error('THE FILE ALREADY EXISTS');
-    errCode = ALREADY_EXISTENT;
+    errCode = FILE_EXISTS;
   } else {
     log_error(storingError.message, 'NON MULTER ERROR');
   }

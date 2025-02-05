@@ -132,4 +132,3 @@ dist
 
 .env*
 .vscode/
-docker-compose.yml

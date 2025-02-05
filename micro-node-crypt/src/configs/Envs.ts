@@ -1,7 +1,5 @@
-import { config } from 'dotenv';
-import * as dotenvParseVariables from 'dotenv-parse-variables';
+import { getEnvs, log_info } from 'micro-nodes-shared';
 import IEnvs from '../types/IEnvs';
-import { log_info } from  'micro-nodes-shared';
 
 const defaultEnvs: IEnvs = {
   PORT: 3000,
@@ -15,26 +13,6 @@ const defaultEnvs: IEnvs = {
   API_KEY_DEFAULT_LENGTH: 20
 };
 
-let { error, parsed: preParsingVars } = config({});
-if (error) {
-  log_info(error, '.env file not found, using process envs');
-  preParsingVars = process.env;
-}
-
-
-
-const MICRO_PREFIX = 'MICRO_CRYPT_';
-preParsingVars = Object.keys(preParsingVars)
-.filter((key) => key.startsWith(MICRO_PREFIX))
-.reduce(
-  (acc, key) => ({
-    ...acc,
-    [key.replace(MICRO_PREFIX, '')]: preParsingVars[key],
-  }),
-  {}
-);
-const parsedEnvs = dotenvParseVariables(preParsingVars) as IEnvs;
-
 export const {
   PORT = defaultEnvs.PORT,
   PRODUCTION = defaultEnvs.PRODUCTION,
@@ -44,8 +22,8 @@ export const {
   OUTPUT_ENCODING = defaultEnvs.OUTPUT_ENCODING,
   SALT_ROUNDS = defaultEnvs.SALT_ROUNDS,
   API_KEY_CHARS = defaultEnvs.API_KEY_CHARS,
-  API_KEY_DEFAULT_LENGTH = defaultEnvs.API_KEY_DEFAULT_LENGTH
-} = parsedEnvs;
+  API_KEY_DEFAULT_LENGTH = defaultEnvs.API_KEY_DEFAULT_LENGTH,
+} = getEnvs<IEnvs>('MICRO_CRYPT_');
 
 log_info(
   {

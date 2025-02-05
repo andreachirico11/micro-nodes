@@ -1,24 +1,25 @@
 import { RequestHandler } from 'express';
-import { ADMIN_CRUDS, NodeTlsHandler } from '../configs/Envs';
+import { ADMIN_CRUDS } from '../configs/Envs';
 import {
   AddAdminReq,
   AuthRequest,
   DeleteAdminReq,
   HeaderAdminToken,
-  RequestWithCustomHeader,
 } from '../models/RequestTypes';
 import {
   SuccessResponse,
   ServerErrorResp,
   NotFoundResp,
   UnauthorizedResp,
-} from '../types/ApiResponses';
-import { INTERNAL_SERVER, NON_EXISTENT } from '../types/ErrorCodes';
+  NodeTlsHandler,
+  RequestWithCustomHeader,
+} from 'micro-nodes-shared';
+import { INTERNAL_SERVER, NON_EXISTENT } from 'micro-nodes-shared';
 import { log_info, log_error } from 'micro-nodes-shared';
 import { AdminModel } from '../models/Admin';
 import callMicroHash from '../utils/callMicroHash';
 import { HashHelper } from '../configs/HashHelper';
-import { isHashErrorResponse } from '../helpers/MIcroHashHelper';
+import { isHashErrorResponse } from 'micro-nodes-shared';
 import { GetSetRequestProps } from '../utils/GetSetAppInRequest';
 
 export const addAdmin: RequestHandler = async ({ body }: AddAdminReq, res) => {

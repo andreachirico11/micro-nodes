@@ -1,18 +1,11 @@
 import { Request } from 'express';
 import { IStaticFileInfo } from '../model/StaticFileInfo';
+import { GetSetRequestPropsBase } from 'micro-nodes-shared';
 
-const CLIENT_IP = 'client_ip',
-  MULTER_SINGLE_ERROR = 'MULTER_SINGLE_ERROR',
+const MULTER_SINGLE_ERROR = 'MULTER_SINGLE_ERROR',
   FILE_INFO = 'FILE_INFO';
 
-export class GetSetRequestProps {
-  static getClientIp(req: Request) {
-    return req[CLIENT_IP] as string;
-  }
-
-  static setClientIp(req: Request, ip: string) {
-    req[CLIENT_IP] = ip;
-  }
+export class GetSetRequestProps extends GetSetRequestPropsBase {
   static getStoringError(req: Request) {
     return req[MULTER_SINGLE_ERROR] as Error;
   }

@@ -1,9 +1,8 @@
 import { RequestHandler } from 'express';
-import { BadDecrypt, ServerErrorResp, SuccessResponse } from '../types/ApiResponses';
+import { BadDecrypt, INTERNAL_SERVER, ServerErrorResp, SuccessResponse } from 'micro-nodes-shared';
 import { log_error, log_info } from 'micro-nodes-shared';
 import { CryptReq } from '../types/RequestTypes';
 import { cypher, decypher as decrpyter } from '../utils/cryptFunctions';
-import { INTERNAL_SERVER } from '../types/ErrorCodes';
 
 const sharedMiddleware = (type: 'crypt' | 'decrypt') => {
   const reqHandler: RequestHandler = ({ body: { input, secretKey } }: CryptReq, res) => {

@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { SuccessResponse } from '../types/ApiResponses';
+import { SuccessResponse } from 'micro-nodes-shared';
 import { log_info } from 'micro-nodes-shared';
 
 export const getPing: RequestHandler = (req, res) => {

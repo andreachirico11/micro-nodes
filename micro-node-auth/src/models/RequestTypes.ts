@@ -1,9 +1,8 @@
-import { IncomingHttpHeaders } from 'http';
+import { Request } from 'express';
+import { HeaderApiKey, RequestWithCustomHeader } from 'micro-nodes-shared';
 import { IAdmin } from './Admin';
 import { IApp, IAppId } from './App';
 import { IAuthUser } from './User';
-import { Request, query } from 'express';
-import { ParsedUrlQuery } from 'querystring';
 
 export type AppIdParams = { appId: string };
 export type AdminIdParams = { adminId: string };
@@ -12,7 +11,6 @@ export type UserIdParams = { userId: string };
 export type OnlyApiKeyQUery = { only_api_key: string };
 
 export type HeaderAdminToken = { admintoken: string };
-export type HeaderApiKey = { "app-api-key": string };
 export type HeaderAuthorization = { authorization: string };
 
 export type AddAppReqBody = Omit<IApp, '_id' | 'apiKey' | 'dateAdd'>;
@@ -29,28 +27,6 @@ export type UpdateUserReqBody = {
   password?: string;
 };
 
-export interface RequestWithCustomHeader<
-  TParams,
-  Tbody,
-  Tbody2,
-  THeader extends IncomingHttpHeaders
-> extends Request<TParams, Tbody, Tbody2> {
-  headers: THeader;
-}
-
-export interface RequestWithCustomQuery<TParams, Tbody, Tbody2, TQuery extends ParsedUrlQuery>
-  extends Request<TParams, Tbody, Tbody2> {
-  query: TQuery;
-}
-
-export type ReqWithCustHeaderAndQuery<
-  TParams,
-  Tbody,
-  Tbody2,
-  THeader extends IncomingHttpHeaders,
-  TQuery extends ParsedUrlQuery
-> = RequestWithCustomHeader<TParams, Tbody, Tbody2, THeader> &
-  RequestWithCustomQuery<TParams, Tbody, Tbody2, TQuery>;
 
 // requests
 export type RequestWithAppIdParams = Request<AppIdParams, {}, any>;

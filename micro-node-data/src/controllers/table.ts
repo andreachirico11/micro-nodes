@@ -1,8 +1,8 @@
 import { RequestHandler } from 'express';
-import { NotFoundResp, ServerErrorResp, ServerErrorRespWithMessage } from '../types/ApiResponses';
-import { GENERIC, NON_EXISTENT, UNSUPPORTED_URL } from '../types/ErrorCodes';
+import { NotFoundResp, ServerErrorResp, ServerErrorRespWithMessage } from 'micro-nodes-shared';
+import { GENERIC, NON_EXISTENT, UNSUPPORTED_URL } from 'micro-nodes-shared';
 import { log_info, log_error } from 'micro-nodes-shared';
-import { AllProtectedRequests, RequestWithBody, RequestWithBodyAndQuery } from '../types/Requests';
+import { AllProtectedRequests, RequestWithBodyAndQuery } from '../types/Requests';
 import { CollectionConfig, CollectionConfigModel } from '../models/collectionConfig';
 import { GetSetRequestProps } from '../utils/GetSetAppInRequest';
 import { DynamicModel } from '../models/dynamicModel';
@@ -11,7 +11,6 @@ import { parseObjectToColumnDefinition } from '../utils/columnConfigurators';
 import { UnhandledDataType } from '../types/Errors';
 import dynamicSchemaGenerator from '../utils/dynamicSchemaGenerator';
 import { CONFIGS_COLLECTION_NAME, DEFAULT_UNCHEKED_OPS } from '../configs/Envs';
-import { CrudOperations } from '../types/CrudOperations';
 import uncheckedOpsSplitter from '../utils/uncheckedOpsSplitter';
 
 export const retrieveTableModel: RequestHandler = async (req: AllProtectedRequests, res, next) => {

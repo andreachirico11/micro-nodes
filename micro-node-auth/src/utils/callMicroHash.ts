@@ -1,5 +1,5 @@
 import { HashHelper } from '../configs/HashHelper';
-import { isHashErrorResponse } from '../helpers/MIcroHashHelper';
+import { isHashErrorResponse } from 'micro-nodes-shared';
 
 const callMicroHash = async (stringToHash: string) => {
   const hashResp = await HashHelper.hashString(stringToHash);

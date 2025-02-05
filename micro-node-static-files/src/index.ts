@@ -1,10 +1,11 @@
-import { PORT } from './configs/Envs';
-import { log_error, log_fatal, log_info } from 'micro-nodes-shared';
-import express from './configs/express';
+import { BASE_URL, PORT } from './configs/Envs';
+import { configApp, log_error, log_fatal, log_info } from 'micro-nodes-shared';
+import * as express from 'express';
 import { Application } from 'express';
 import initSequelize from './configs/sequelize';
 import { staticFileInfoInitInit } from './model/StaticFileInfo';
 import { pingTestInit } from './model/PingTest';
+import router from './configs/routes';
 
 
 
@@ -12,7 +13,7 @@ import { pingTestInit } from './model/PingTest';
   let app: Application;
 
   try {
-    app = express();
+    app = configApp(express(), BASE_URL, router);
   } catch (e) {
     log_error(e, 'Error Configuring Express');
   }

@@ -1,16 +1,16 @@
 import { Router } from "express";
-import { getPing } from "../controllers/ping";
-import { unsupportedUrl } from "../controllers/unsuportedUrl";
-import { configRequest } from "../controllers/utils";
+import { getPing, pingExternalSevices } from "../controllers/ping";
 import { authorize } from "../controllers/auth";
 import { addTableIfDoesntExists, generateModelFromTable, retrieveTableModel } from "../controllers/table";
 import { getAll, post, get, remove, put, destroy } from "../controllers/cruds";
 import { dynamicValidator } from "../controllers/validators";
+import { configRequest, unsupportedUrl } from "micro-nodes-shared";
 
 const router = Router();
 
 router.all('*', configRequest);
 
+router.get('/ping/ext', pingExternalSevices);
 router.get('/ping', getPing);
 
 router.post("/:tableName", addTableIfDoesntExists, authorize, dynamicValidator, generateModelFromTable, post);

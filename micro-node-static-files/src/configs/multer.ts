@@ -1,12 +1,11 @@
 import { existsSync, mkdirSync } from 'fs';
 import * as multer from 'multer';
 import { FILE_MAX_SIZE, MULTIPART_FILE_PROP_NAME, STORAGE_PATH } from '../configs/Envs';
+import { MulterFIlterCallback, MulterOptCallback } from '../types/multer';
 import { StoreRequest } from '../types/Requests';
-import { log_info } from 'micro-nodes-shared';
-import { ALREADY_EXISTENT } from '../types/ErrorCodes';
-import { MulterOptCallback, MulterFIlterCallback } from '../types/multer';
-import { getFilePath, getFilePathWithTItle } from '../utils/path-utils';
 import { GetSetRequestProps } from '../utils/GetSetAppInRequest';
+import { getFilePath, getFilePathWithTItle } from '../utils/path-utils';
+import { FILE_EXISTS, log_info } from 'micro-nodes-shared';
 
 const destination = (req: StoreRequest, file: Express.Multer.File, callback: MulterOptCallback) => {
   const destinationPath = getFilePath(STORAGE_PATH, req.body.subPath);
@@ -37,7 +36,7 @@ const fileFilter = (
 ) => {
   const filePath = getFilePathWithTItle(originalname, STORAGE_PATH, req.body.subPath);
   GetSetRequestProps.setFileInfo(req, { fileName: originalname, type: mimetype, filePath });
-  if (existsSync(filePath)) callback(new Error(ALREADY_EXISTENT), false);
+  if (existsSync(filePath)) callback(new Error(FILE_EXISTS), false);
   else callback(null, true);
 };
 

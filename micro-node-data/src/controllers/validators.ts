@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { ValidationError } from 'yup';
 import { log_error, log_info } from 'micro-nodes-shared';
-import { ValidationErrResp } from '../types/ApiResponses';
+import { ValidationErrResp } from 'micro-nodes-shared';
 import { RequestWithBody } from '../types/Requests';
 import { GetSetRequestProps } from '../utils/GetSetAppInRequest';
 import tableRemover from '../utils/tableRemover';

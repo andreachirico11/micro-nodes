@@ -2,10 +2,11 @@ import { Request } from 'express';
 import { AppModel } from '../models/App';
 import { UserModel } from '../models/User';
 import { AdminModel } from '../models/Admin';
+import { GetSetRequestPropsBase } from 'micro-nodes-shared';
 
-const APP = "foundApp", USER = "foundUser", ADMIN = "foundAdmin", CLIENT_IP = "client_ip", SKIP_UPDATE =  "skipRefTkUpdate", RESET_TOKEN = "resetToken";
+const APP = "foundApp", USER = "foundUser", ADMIN = "foundAdmin", SKIP_UPDATE =  "skipRefTkUpdate", RESET_TOKEN = "resetToken";
 
-export class GetSetRequestProps {
+export class GetSetRequestProps extends GetSetRequestPropsBase {
     static getApp(req: Request) {
         return req[APP] as  AppModel;
     }
@@ -29,14 +30,6 @@ export class GetSetRequestProps {
 
     static setAdmin(req: Request, u: AdminModel) {
         req[ADMIN] = u;
-    }
-
-    static getClientIp(req: Request) {
-        return req[CLIENT_IP] as string;
-    }
-
-    static setClientIp(req: Request, ip: string) {
-        req[CLIENT_IP] = ip;
     }
 
     static getSkipRefTkUpdate(req: Request) {
