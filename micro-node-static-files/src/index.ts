@@ -1,5 +1,5 @@
 import { PORT } from './configs/Envs';
-import { log_error, log_fatal, log_info } from './utils/log';
+import { log_error, log_fatal, log_info } from 'micro-nodes-shared';
 import express from './configs/express';
 import { Application } from 'express';
 import initSequelize from './configs/sequelize';

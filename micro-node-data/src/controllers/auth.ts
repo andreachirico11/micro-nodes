@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { AllProtectedRequests } from '../types/Requests';
-import { log_error, log_info } from '../utils/log';
+import { log_error, log_info } from 'micro-nodes-shared';
 import { ServerErrorResp, UnauthorizedResp } from '../types/ApiResponses';
 import { INTERNAL_SERVER } from '../types/ErrorCodes';
 import { AuthHelper } from '../configs/MicroHelper';

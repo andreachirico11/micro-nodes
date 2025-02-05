@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { SuccessResponse, ServerErrorResp } from '../types/ApiResponses';
 import { GENERIC, INTERNAL_SERVER, NON_EXISTENT } from '../types/ErrorCodes';
-import { log_info, log_error } from '../utils/log';
+import { log_info, log_error } from 'micro-nodes-shared';
 import {
   DeleteRequest,
   RequestEmpty,

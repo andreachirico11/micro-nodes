@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { log_error, log_info } from '../utils/log';
+import { log_error, log_info } from 'micro-nodes-shared';
 import {
   NotFoundResp,
   ServerErrorResp,

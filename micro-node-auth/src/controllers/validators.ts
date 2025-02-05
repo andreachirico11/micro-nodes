@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { ObjectSchema, ValidationError } from 'yup';
-import { log_error, log_info } from '../utils/log';
+import { log_error, log_info } from 'micro-nodes-shared';
 import { ValidationErrResp } from '../types/ApiResponses';
 import { AddUserReq, ChangePasswordRequest, UpdateUserReq } from '../models/RequestTypes';
 import { GetSetRequestProps } from '../utils/GetSetAppInRequest';

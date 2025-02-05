@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { NotFoundResp, ServerErrorResp, ServerErrorRespWithMessage } from '../types/ApiResponses';
 import { GENERIC, NON_EXISTENT, UNSUPPORTED_URL } from '../types/ErrorCodes';
-import { log_info, log_error } from '../utils/log';
+import { log_info, log_error } from 'micro-nodes-shared';
 import { AllProtectedRequests, RequestWithBody, RequestWithBodyAndQuery } from '../types/Requests';
 import { CollectionConfig, CollectionConfigModel } from '../models/collectionConfig';
 import { GetSetRequestProps } from '../utils/GetSetAppInRequest';

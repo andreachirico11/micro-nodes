@@ -4,7 +4,7 @@ import { CollectionConfigProps, CollectionConfig, CollectionConfigModel } from '
 import Column from '../types/Column';
 import { array, ObjectSchema, object } from 'yup';
 import { columnConfigs } from './columnConfigurators';
-import { log_info } from './log';
+import { log_info } from 'micro-nodes-shared';
 
 const reducer = (columns: Column[], action: (c: Column) => any) => {
   return columns.reduce((actual, column) => ({ ...actual, [column.name]: action(column) }), {});

@@ -21,7 +21,7 @@ import {
 import { FileIdRequest, StoreRequest } from '../types/Requests';
 import deleteFileFs, { deleteFileFsAsync } from '../utils/deleteFileFs';
 import { GetSetRequestProps } from '../utils/GetSetAppInRequest';
-import { log_error, log_info } from '../utils/log';
+import { log_error, log_info } from 'micro-nodes-shared';
 
 export const storeFIle: RequestHandler = async (req: Request, res, next) => {
   multerSingle(req, res, function (e) {

@@ -14,7 +14,7 @@ import {
   UnauthorizedResp,
 } from '../types/ApiResponses';
 import { INTERNAL_SERVER, NON_EXISTENT } from '../types/ErrorCodes';
-import { log_info, log_error } from '../utils/log';
+import { log_info, log_error } from 'micro-nodes-shared';
 import { AdminModel } from '../models/Admin';
 import callMicroHash from '../utils/callMicroHash';
 import { HashHelper } from '../configs/HashHelper';

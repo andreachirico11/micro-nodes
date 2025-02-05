@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { log_warn } from '../utils/log';
+import { log_warn } from 'micro-nodes-shared';
 import { NotFoundResp } from '../types/ApiResponses';
 import { UNSUPPORTED_URL } from '../types/ErrorCodes';
 

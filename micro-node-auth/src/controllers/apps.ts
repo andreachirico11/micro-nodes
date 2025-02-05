@@ -22,7 +22,7 @@ import {
 } from '../types/ApiResponses';
 import { INTERNAL_SERVER, NON_EXISTENT } from '../types/ErrorCodes';
 import { GetSetRequestProps } from '../utils/GetSetAppInRequest';
-import { log_error, log_info } from '../utils/log';
+import { log_error, log_info } from 'micro-nodes-shared';
 
 export const getAppById: RequestHandler = async (req: RequestWithAppIdInParams, res, next) => {
   try {

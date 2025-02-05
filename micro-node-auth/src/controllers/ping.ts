@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { PingTest } from '../models/PingTest';
-import { log_error, log_info } from '../utils/log';
+import { log_error, log_info } from 'micro-nodes-shared';
 import { ServerErrorResp, SeviceUnavailable, SuccessResponse } from '../types/ApiResponses';
 import { GENERIC, NO_RESPONSE } from '../types/ErrorCodes';
 import { HashHelper } from '../configs/HashHelper';

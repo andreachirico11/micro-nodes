@@ -1,5 +1,5 @@
 import { rm, rmdirSync, rmSync, rmdir } from 'fs';
-import { log_error } from './log';
+import { log_error } from 'micro-nodes-shared';
 
 export default function (filePath: string, folderPath?: string) {
   try {

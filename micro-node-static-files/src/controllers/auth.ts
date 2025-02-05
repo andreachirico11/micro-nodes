@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { BYPASS_AUTH, NodeTlsHandler } from '../configs/Envs';
 import { AllProtectedRequests } from '../types/Requests';
-import { log_error, log_info } from '../utils/log';
+import { log_error, log_info } from 'micro-nodes-shared';
 import { ServerErrorResp, UnauthorizedResp } from '../types/ApiResponses';
 import { AuthHelper } from '../configs/MicroHelper';
 import { isAuthErrorResponse } from '../helpers/MIcroAuthHelper';

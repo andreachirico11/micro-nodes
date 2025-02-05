@@ -1,5 +1,5 @@
 import { CollectionConfigModel } from "../models/collectionConfig";
-import { log_error, log_info } from "./log";
+import { log_error, log_info } from "micro-nodes-shared";
 
 /**
  * Singleton used between middlewares to delete a fresh table if 

@@ -11,7 +11,7 @@ import { UnauthorizedResp, SuccessResponse, ServerErrorResp } from '../types/Api
 import { INTERNAL_SERVER } from '../types/ErrorCodes';
 import { GetSetRequestProps } from '../utils/GetSetAppInRequest';
 import { getActualDateWithAddedMilliseconds, isDateInThePast } from '../utils/dates';
-import { log_info, log_error } from '../utils/log';
+import { log_info, log_error } from 'micro-nodes-shared';
 import { NodeTlsHandler } from '../configs/Envs';
 import { HashHelper } from '../configs/HashHelper';
 import callMicroHash from '../utils/callMicroHash';
