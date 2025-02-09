@@ -46,6 +46,7 @@ services:
       - .env.compose
     depends_on:
       - mongo-data
+      - micro-auth
   
   mysql_db:
     container_name: mysql_db
