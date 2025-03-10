@@ -25,4 +25,7 @@ jobs:
             echo 'Cloned from git'
             cp ../ENVIRONMENTS/micro-nodes-prod/.env.compose micro-nodes/.env.compose
             echo 'Env copied'
+            cp -r ../SSL_CERTS/nodemicrosss/ micro-nodes/ssl
+            echo 'Certs Copied'
+            
 
