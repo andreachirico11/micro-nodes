@@ -21,7 +21,7 @@ jobs:
             mkdir MICRO-NODES-PROD
             cd MICRO-NODES-PROD
             echo 'Wiped previous version'
-            git clone https://github.com/andreachirico11/micro-nodes.git
+            GIT_SSL_NO_VERIFY=true git clone https://github.com/andreachirico11/micro-nodes.git
             echo 'Cloned from git'
             cp ../ENVIRONMENTS/micro-nodes-prod/.env.compose micro-nodes/.env.compose
             echo 'Env copied'
