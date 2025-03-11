@@ -25,7 +25,7 @@ jobs:
             echo 'Cloned from git'
             cp ../ENVIRONMENTS/micro-nodes-prod/.env.compose micro-nodes/.env.compose
             echo 'Env copied'
-            cp -r ../SSL_CERTS/nodemicrosss/ micro-nodes/ssl
+            cp -r ../SSL_CERTS/nodemicrosss/ micro-nodes/nginx/ssl
             echo 'Certs Copied'
             cd micro-nodes
             docker compose up -d
