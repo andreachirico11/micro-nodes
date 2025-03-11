@@ -71,7 +71,7 @@ export const addTableIfDoesntExists: RequestHandler = async (req: RequestWithBod
     log_info(`Successfully created table with id: ${result._id}`);
 
     GetSetRequestProps.setTableModel(req, result);
-    tableRemover.scheduleTableForElimination(result._id);
+    tableRemover.scheduleTableForElimination(result._id as string);
 
     return next();
   } catch (error) {

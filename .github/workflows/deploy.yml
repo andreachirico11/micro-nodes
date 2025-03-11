@@ -27,5 +27,6 @@ jobs:
             echo 'Env copied'
             cp -r ../SSL_CERTS/nodemicrosss/ micro-nodes/ssl
             echo 'Certs Copied'
+            docker compose up -d
             
 
