@@ -13,7 +13,13 @@ services:
       - micro-auth
       - micro-static
       - micro-data
-
+  
+  cetaceo:
+    container_name: cetaceo
+    image: crccheck/hello-world
+    ports:
+      - "8000:8000"
+  
   micro-crypt:
     container_name: micro-crypt
     build: ./micro-node-crypt
