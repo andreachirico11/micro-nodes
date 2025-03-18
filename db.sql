@@ -1,7 +1,9 @@
-CREATE DATABASE `micro-node-auth`
-/*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */
-/*!80016 DEFAULT ENCRYPTION='N' */
-;
+CREATE DATABASE `micro-node-auth`; #backtick compulsory
+
+CREATE USER '<<  micro auth user  >>' @'%' IDENTIFIED BY '<< password >>';
+GRANT ALL PRIVILEGES ON `micro-node-auth`.* TO '< < micro auth user > >' @'%';
+FLUSH PRIVILEGES;
+
 CREATE TABLE pingTests (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255)
@@ -47,6 +49,10 @@ CREATE TABLE Admins (
 );
 
 CREATE DATABASE `micro-static-files`;
+
+CREATE USER '<<  micro static user  >>' @'%' IDENTIFIED BY '<< password >>';
+GRANT ALL PRIVILEGES ON `micro-static-files`.* TO '< < micro static user > >' @'%';
+FLUSH PRIVILEGES;
 
 CREATE TABLE pingTests (
     id SERIAL PRIMARY KEY,

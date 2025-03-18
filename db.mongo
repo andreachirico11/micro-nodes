@@ -1,0 +1,15 @@
+// Connect to MongoDB as admin
+use admin
+db.auth("adminUsername", "adminPassword")
+
+// Switch micro data database you want to grant access to
+use << micro data db name >>
+
+// Create the user with access to this database only
+db.createUser({
+  user: "<< micro data username >>",
+  pwd: "password",
+  roles: [
+    { role: "readWrite", db: "<< micro data db name >>" }
+  ]
+})
