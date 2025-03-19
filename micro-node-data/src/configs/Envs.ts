@@ -37,10 +37,10 @@ log_info(
     PRODUCTION,
     BASE_URL,
     MONGO_URI,
+    MONGO_DB,
     MICRO_AUTH_URI,
     BYPASS_AUTH,
     CONFIGS_COLLECTION_NAME,
-    MONGO_DB,
     TLS_BYPASS,
   },
   '--------- Actual Environments -------'

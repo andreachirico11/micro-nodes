@@ -18,7 +18,7 @@ import router from './configs/routes';
     await mongooseConnect();
     log_info('Db connected');
   } catch (e) {
-    log_error("Can't connect to db");
+    log_error(e, "Can't connect to db");
   }
 
   app

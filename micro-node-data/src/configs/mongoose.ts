@@ -3,7 +3,7 @@ import { MONGO_DB, MONGO_URI } from "./Envs";
 
 export function mongooseConnect() {
     return connect(MONGO_URI, {
-        dbName: MONGO_DB
+        dbName: MONGO_DB, authSource: MONGO_DB
     })
 }
 
