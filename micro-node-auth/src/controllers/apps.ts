@@ -5,6 +5,7 @@ import { AppModel } from '../models/App';
 import {
   AddAppReq,
   DeleteAppReq,
+  EmptyHeaderBodyRequest,
   OnlyApiKeyQUery,
   RequestWithAppIdInBody,
   RequestWithAppIdInParams,
@@ -24,30 +25,35 @@ import { INTERNAL_SERVER, NON_EXISTENT } from 'micro-nodes-shared';
 import { GetSetRequestProps } from '../utils/GetSetAppInRequest';
 import { log_error, log_info } from 'micro-nodes-shared';
 
-export const getAppById: RequestHandler = async (req: RequestWithAppIdInParams, res, next) => {
+export const getAllApps: RequestHandler = async (req: EmptyHeaderBodyRequest, res, next) => {
   try {
-    const {
-      params: { appId },
-    } = req;
-    log_info('Getting  app with id: ' + appId);
-    const appToUpdate = await AppModel.findByPk(appId);
-    if (!!!appToUpdate) {
-      log_error('No app found');
-      return new NotFoundResp(res, NON_EXISTENT);
-    }
-    log_info('Retrieved app with id: ' + appId);
-    GetSetRequestProps.setApp(req, appToUpdate);
-    next();
+    log_info('Getting all registered apps');
+    const apps = await AppModel.findAll();
+    log_info('Retrieved apps length: ' + apps.length);
+    return new SuccessResponse(res, apps);
   } catch (e) {
     log_error(e, 'Error updating new app');
     return new ServerErrorResp(res, INTERNAL_SERVER);
   }
 };
 
-export const getAppApiKey: RequestHandler = async (req, res) => {
-  log_info("Sending app api key to the client");
-  const {apiKey} = GetSetRequestProps.getApp(req)
-  return new SuccessResponse(res, {apiKey});
+export const getAppById: RequestHandler = async (req: RequestWithAppIdInParams, res, next) => {
+  try {
+    const {
+      params: { appId },
+    } = req;
+    log_info('Getting  app with id: ' + appId);
+    const foundApp = await AppModel.findByPk(appId);
+    if (!!!foundApp) {
+      log_error('No app found');
+      return new NotFoundResp(res, NON_EXISTENT);
+    }
+    log_info('Retrieved app with id: ' + appId);  
+    return new SuccessResponse(res, foundApp);
+  } catch (e) {
+    log_error(e, 'Error updating new app');
+    return new ServerErrorResp(res, INTERNAL_SERVER);
+  }
 };
 
 export const addApp: RequestHandler = async ({ body }: AddAppReq, res) => {
@@ -63,9 +69,9 @@ export const addApp: RequestHandler = async ({ body }: AddAppReq, res) => {
       payload: { key: apiKey },
     } = keyResponse;
     log_info('Key Generated: ' + apiKey);
-    await AppModel.create({ ...body, dateAdd: new Date(), apiKey });
-    log_info('Success');
-    return new SuccessResponse(res);
+    const {dataValues: insertedApp} = await AppModel.create({ ...body, dateAdd: new Date(), apiKey });
+    log_info("api key: " + insertedApp.apiKey, 'Success');
+    return new SuccessResponse(res, insertedApp);
   } catch (e) {
     log_error(e, 'Error creating new app');
     return new ServerErrorResp(res, INTERNAL_SERVER);
@@ -78,9 +84,9 @@ export const updateApp: RequestHandler = async (req: UpdateAppReq, res) => {
   try {
     const appToUpdate = GetSetRequestProps.getApp(req);
     log_info('Updating new app with id: ' + appToUpdate._id);
-    await appToUpdate.update({ ...req.body });
-    log_info('App updated');
-    return new SuccessResponse(res);
+    const {dataValues: updatedApp} = await appToUpdate.update({ ...req.body });
+    log_info('App with id: <<' + updatedApp._id +'>> updated');
+    return new SuccessResponse(res, updatedApp);
   } catch (e) {
     log_error(e, 'Error updating new app');
     return new ServerErrorResp(res, INTERNAL_SERVER);

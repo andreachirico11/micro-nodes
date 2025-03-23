@@ -37,6 +37,8 @@ export type RequestWithUserIdInParams = Request<UserIdParams, {}, any>;
 
 export type RequestWithAppIdInBody = Request<any, {}, IAppId>;
 
+export type EmptyHeaderBodyRequest = RequestWithCustomHeader<{}, {}, null, HeaderAdminToken>;
+
 export type AddAppReq = RequestWithCustomHeader<{}, {}, AddAppReqBody, HeaderAdminToken>;
 
 export type UpdateAppReq = RequestWithCustomHeader<

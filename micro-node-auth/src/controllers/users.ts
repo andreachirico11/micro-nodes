@@ -26,22 +26,6 @@ export const getAllUsers: RequestHandler = async (
   }
 };
 
-export const getAllAppUsers: RequestHandler = async (
-  req: RequestWithCustomHeader<any, any, any, HeaderApiKey>,
-  res
-) => {
-  try {
-    const { _id: app_id } = GetSetRequestProps.getApp(req);
-    log_info('Retrieving all users for app with id: ' + app_id);
-    const users = await UserModel.findAll({ where: { app_id } });
-    log_info('Number of users found: ' + users.length);
-    return new SuccessResponse(res, { users });
-  } catch (e) {
-    log_error(e, 'Error creating new user');
-    return new ServerErrorResp(res, INTERNAL_SERVER);
-  }
-};
-
 export const getUserByNameAndAppAndContinue: RequestHandler = async (
   req: AuthRequest,
   res,
@@ -101,8 +85,8 @@ export const getUserByIdAndContinue: RequestHandler = async (
 export const returnUser: RequestHandler = async (req: AuthRequest, res) => {
   try {
     const user = GetSetRequestProps.getUser(req);
-    log_info(`Returning ${user.name} tokens`);
-    return new SuccessResponse(res, { user });
+    log_info(`Returning ${user.name}`);
+    return new SuccessResponse(res, user);
   } catch (e) {
     log_error(e, 'Error Getting User');
     return new ServerErrorResp(res, INTERNAL_SERVER);
@@ -120,16 +104,16 @@ export const addUser: RequestHandler = async (req: AddUserReq, res) => {
     log_info('Password hashed successfully');
 
     log_info(otherProps, 'Creating new user with data: ');
-    const { _id: user_id } = await UserModel.create({
+    const { dataValues: userCreated } = await UserModel.create({
       ...otherProps,
       app_id,
       password: hashedPsw,
       dateAdd: new Date(),
       datePasswordChange: new Date(),
     });
-    log_info('User created with id: ' + user_id);
+    log_info('User created with id: ' + userCreated._id);
 
-    return new SuccessResponse(res);
+    return new SuccessResponse(res, userCreated);
   } catch (e) {
     log_error(e, 'Error creating new user');
     return new ServerErrorResp(res, INTERNAL_SERVER);
@@ -143,9 +127,9 @@ export const updateUser: RequestHandler = async (req: AddUserReq, res) => {
     const { name } = req.body;
     const userToBeUpdated = GetSetRequestProps.getUser(req);
     if (!!name) userToBeUpdated.name = name;
-    await userToBeUpdated.save();
-    log_info('User  with id <<' + userToBeUpdated._id + '>> updated');
-    return new SuccessResponse(res);
+    const {dataValues: userUpdated} =  await userToBeUpdated.save();
+    log_info('User  with id <<' + userUpdated._id + '>> updated');
+    return new SuccessResponse(res, userUpdated);
   } catch (e) {
     log_error(e, 'Error creating new user');
     return new ServerErrorResp(res, INTERNAL_SERVER);

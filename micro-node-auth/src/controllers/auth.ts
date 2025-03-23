@@ -1,24 +1,11 @@
 import { RequestHandler } from 'express';
-import { isHashErrorResponse } from 'micro-nodes-shared';
-import {
-  AuthCheckRequest,
-  AuthRequest,
-  ChangePasswordRequest,
-  ResetTokenRequest,
-} from '../models/RequestTypes';
+import { AuthCheckRequest, AuthRequest, ChangePasswordRequest, ResetTokenRequest } from '../models/RequestTypes';
 import { UserModel } from '../models/User';
-import {
-  UnauthorizedResp,
-  SuccessResponse,
-  ServerErrorResp,
-  NodeTlsHandler,
-} from 'micro-nodes-shared';
-import { INTERNAL_SERVER } from 'micro-nodes-shared';
 import { GetSetRequestProps } from '../utils/GetSetAppInRequest';
 import { getActualDateWithAddedMilliseconds, isDateInThePast } from '../utils/dates';
-import { log_info, log_error } from 'micro-nodes-shared';
 import { HashHelper } from '../configs/HashHelper';
 import callMicroHash from '../utils/callMicroHash';
+import { log_info, log_error, UnauthorizedResp, ServerErrorResp, INTERNAL_SERVER, SuccessResponse, NON_EXISTENT, NodeTlsHandler, isHashErrorResponse } from 'micro-nodes-shared';
 
 const generateTokenAndExp = async (
   baseString: string,
@@ -27,7 +14,7 @@ const generateTokenAndExp = async (
   return [await callMicroHash(baseString), getActualDateWithAddedMilliseconds(millisecondsValidity)];
 };
 
-export const checkAuthToken: RequestHandler = async (req: AuthCheckRequest, res, next) => {
+export const getUserFromValidToken: RequestHandler = async (req: AuthCheckRequest, res, next) => {
   try {
     const { _id: app_id } = GetSetRequestProps.getApp(req),
       {
@@ -44,11 +31,18 @@ export const checkAuthToken: RequestHandler = async (req: AuthCheckRequest, res,
       return new UnauthorizedResp(res, 'Token is not valid anymore');
     }
     log_info('The token is still valid', `Found User With Name << ${foundUser.name} >>`);
-    return new SuccessResponse(res);
+    GetSetRequestProps.setUser(req, foundUser);
+    next();
   } catch (e) {
     log_error(e, 'Authentication Error');
     return new ServerErrorResp(res, INTERNAL_SERVER);
   }
+};
+
+export const returnTrueifUserIsPresent: RequestHandler = async (req: AuthCheckRequest, res, next) => {
+  return !!GetSetRequestProps.getUser(req)
+    ? new SuccessResponse(res)
+    : new ServerErrorResp(res, NON_EXISTENT);
 };
 
 export const onRefreshAuthToken: RequestHandler = async (req: AuthCheckRequest, res, next) => {

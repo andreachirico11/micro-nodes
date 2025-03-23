@@ -1,13 +1,13 @@
 import { Router } from "express";
 import { isAdminTokenValid, getAdminByName, authenticateAdmin, updateAdminToken, getAdminToken, deleteAdmin, addAdmin, areAdminActionsEnabled } from "../controllers/admins";
-import { addApp, getAppById, updateApp, deleteApp, getAppIfApikeyIsValid, getAppApiKey } from "../controllers/apps";
+import { addApp, getAppById, updateApp, deleteApp, getAppIfApikeyIsValid, getAllApps } from "../controllers/apps";
 import { pingExternalSevices, getPing, getPingDb } from "../controllers/ping";
-import { cascadeDeleteUsers, getUserByNameAndAppAndContinue, getUserByIdAndContinue, returnUser, getAllUsers, addUser, updateUser, deleteUser, getAllAppUsers } from "../controllers/users";
+import { cascadeDeleteUsers, getUserByNameAndAppAndContinue, getUserByIdAndContinue, returnUser, getAllUsers, addUser, updateUser, deleteUser } from "../controllers/users";
 import { getRequestBodyValidator, checkAppPasswordRequirementsForNewUser, checkAppPasswordRequirementsForPasswordChange } from "../controllers/validators";
 import { adminCreation } from "../utils/validators/Admin";
 import { appCreation, appUpdate } from "../utils/validators/App";
 import { userAuth, userCreation, userPasswordChange, userUpdate } from "../utils/validators/User";
-import { onRefreshAuthToken, updateUserTokens, getUserToken, authenticateUser, checkAuthToken, onResetTokenRequest, changeUserPassword } from "../controllers/auth";
+import { onRefreshAuthToken, updateUserTokens, getUserToken, authenticateUser, getUserFromValidToken, onResetTokenRequest, changeUserPassword, returnTrueifUserIsPresent } from "../controllers/auth";
 import { configRequest, unsupportedUrl } from "micro-nodes-shared";
 
 const router = Router();
@@ -17,8 +17,9 @@ router.all('*', configRequest);
 const appRouter = Router();
 appRouter.post('/', getRequestBodyValidator(appCreation), addApp);
 appRouter.put('/:appId', getAppById, getRequestBodyValidator(appUpdate), updateApp);
-appRouter.get('/:appId', getAppById, getAppApiKey);
 appRouter.delete('/:appId', getAppById, cascadeDeleteUsers, deleteApp);
+appRouter.get('/:appId', getAppById);
+appRouter.get('/', getAllApps);
 router.use('/app', isAdminTokenValid, appRouter);
 
 router.post('/auth/admin',   getRequestBodyValidator(userAuth),
@@ -58,7 +59,7 @@ authRouter.post(
   updateUserTokens,
   getUserToken
 );
-authRouter.get('/', checkAuthToken);
+authRouter.get('/', getUserFromValidToken, returnTrueifUserIsPresent);
 router.use('/auth', getAppIfApikeyIsValid, authRouter);
 
 
@@ -68,8 +69,7 @@ adminRouter.post('/', getRequestBodyValidator(adminCreation), addAdmin);
 router.use('/admin', areAdminActionsEnabled, adminRouter);
 
 const userRouter = Router();
-userRouter.get('/:userId', getUserByIdAndContinue, returnUser);
-userRouter.get('/', getAllAppUsers);
+userRouter.get('/me', getUserFromValidToken, returnUser);
 router.use('/user',  getAppIfApikeyIsValid, userRouter);
 
 const userAdminRouter = Router();
