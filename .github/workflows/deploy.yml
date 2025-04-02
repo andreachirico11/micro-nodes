@@ -28,7 +28,7 @@ jobs:
             cp -r ../SSL_CERTS/nodemicrosss micro-nodes/ssl-certs
             echo 'Certs Copied'
             cd micro-nodes
-            docker-compose build --no-cache
-            docker compose up -d --force-recreate
+            # docker-compose build --no-cache
+            SSL_CERT_FILE=~/docker_certs/ca-certificates.crt docker compose up -d --force-recreate
             
 
